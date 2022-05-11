@@ -16,5 +16,4 @@ public class Curriculum {
     Instant startTimeCourse;
     Instant endTimeCourse;
     Duration duration;
-
 }

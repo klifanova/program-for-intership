@@ -4,6 +4,7 @@ import internship.EnrichingStudentImpl;
 import internship.model.student.Curriculum;
 import internship.model.student.Program;
 import internship.model.student.Student;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StatusCalculatorTest {
 
-    private EnrichingStudentImpl statusCalculator;
-    private Student student;
+    private static EnrichingStudentImpl statusCalculator;
+    private static Student student;
     private static final String STATUS_COMPLETED = "Training completed.";
     private static final String STATUS_IN_PROCESS = "Training is not finished.";
 
-    @BeforeEach
-    public void init() {
+    @BeforeAll
+    public static void init() {
         statusCalculator = new EnrichingStudentImpl();
         Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
         Duration duration = Duration.of(9, ChronoUnit.HOURS);

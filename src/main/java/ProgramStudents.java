@@ -1,4 +1,4 @@
-import internship.console.ReadingDataFromConsole;
+import internship.console.ConsoleData;
 import internship.facade.FacadeParsableStudents;
 import internship.model.CoursesSummaryInfo;
 import internship.model.InputData;
@@ -12,24 +12,24 @@ public class ProgramStudents {
 
     public static void main(String[] args) throws IOException {
         FacadeParsableStudents facadeParsableStudents = new FacadeParsableStudents();
-        ReadingDataFromConsole readingDataFromConsole = new ReadingDataFromConsole();
-        InputData inputData = readingDataFromConsole.readDataFromConsole();
+        ConsoleData readingDataFromConsole = new ConsoleData();
+        InputData inputData = readingDataFromConsole.read();
         String nowTime = inputData.getTime();
         Instant time = Instant.parse(nowTime);
         String nameFile = inputData.getNameFile();
-        String typeOutputData = inputData.getTypeOutputData();
+        String outputDataType = inputData.getOutputDataType();
 
         CoursesSummaryInfo coursesSummaryInfo = facadeParsableStudents.parseDataStudents(nameFile, time,
-                typeOutputData);
-        printDataStudent("List students in process course :",
-                coursesSummaryInfo.getCollectionForPrintInProcessCourse());
-        printDataStudent("List students complete course :",
-                coursesSummaryInfo.getCollectionForPrintCompleteCourse());
-        printDataStudent("List students not have course :",
-                coursesSummaryInfo.getCollectionForPrintINotHaveCourse());
+                outputDataType);
+        printStudentsData("List students in process course :",
+                coursesSummaryInfo.getInProgressCoursesStudentsList());
+        printStudentsData("List students complete course :",
+                coursesSummaryInfo.getCompleteCoursesStudentList());
+        printStudentsData("List students not have course :",
+                coursesSummaryInfo.getNotHaveCoursesStudentList());
     }
 
-    private static void printDataStudent(String nameList, List<String> listDataStudents) {
+    private static void printStudentsData(String nameList, List<String> listDataStudents) {
         System.out.println(nameList + "\n" + listDataStudents + "\n" + SEPARATE_STRINGS + "\n");
     }
 }

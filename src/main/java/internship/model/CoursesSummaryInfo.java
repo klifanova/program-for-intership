@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CoursesSummaryInfo {
 
-    List<String> collectionForPrintInProcessCourse;
-    List<String> collectionForPrintCompleteCourse;
-    List<String> collectionForPrintINotHaveCourse;
+    List<String> inProgressCoursesStudentsList;
+    List<String> completeCoursesStudentList;
+    List<String> notHaveCoursesStudentList;
 
 }

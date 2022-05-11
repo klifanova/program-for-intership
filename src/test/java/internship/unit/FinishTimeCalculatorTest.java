@@ -57,5 +57,4 @@ public class FinishTimeCalculatorTest {
             findingEndingTimeForStudent.calculateFinishTime(startStampTime, duration);
         });
     }
-
 }

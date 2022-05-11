@@ -115,7 +115,6 @@ public class FacadeParsableStudentsTest {
             studentList.add(student);
         }
         return new Training(studentList);
-
     }
 
     private static List<String> getCoursesSummaryInfo(int countElement, String dataStudent) {

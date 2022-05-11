@@ -11,5 +11,5 @@ public class InputData {
 
     private String nameFile;
     private String time;
-    private String typeOutputData;
+    private String outputDataType;
 }
