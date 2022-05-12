@@ -1,11 +1,10 @@
-package internship.unit;
+package com.griddynamics.gridu.javabasics.studentscourses.unit;
 
-import internship.EnrichingStudentImpl;
-import internship.model.student.Curriculum;
-import internship.model.student.Program;
-import internship.model.student.Student;
+import com.griddynamics.gridu.javabasics.studentscourses.EnrichingStudentImpl;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -17,20 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StatusCalculatorTest {
 
-    private static EnrichingStudentImpl statusCalculator;
-    private static Student student;
-    private static final String STATUS_COMPLETED = "Training completed.";
-    private static final String STATUS_IN_PROCESS = "Training is not finished.";
-
-    @BeforeAll
-    public static void init() {
-        statusCalculator = new EnrichingStudentImpl();
-        Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
-        Duration duration = Duration.of(9, ChronoUnit.HOURS);
-        Curriculum curriculum = new Curriculum("Java", startTimeFr, null, duration);
-        Program program = new Program(curriculum, null, null);
-        student = new Student("Ivan", "Ivanov", program);
-    }
+    private final EnrichingStudentImpl statusCalculator = new EnrichingStudentImpl();
 
     @ParameterizedTest
     @CsvSource({
@@ -42,12 +28,14 @@ public class StatusCalculatorTest {
     public void checkCompletedStatusCourseIfWeHaveValidParameters(String endTime, String now, String actualLeftTime) {
         Instant nowTime = Instant.parse(now);
         Instant finishTime = Instant.parse(endTime);
+        Student student = getStudent();
+        String statusCompleted = "Training completed.";
 
         Student studentWithStatus = statusCalculator.enrichStudent(nowTime, finishTime, student);
         String expectedStatus = studentWithStatus.getProgram().getStatusCourse();
         String expectedLeftTime = studentWithStatus.getProgram().getLeftTime();
 
-        assertEquals(expectedStatus, STATUS_COMPLETED);
+        assertEquals(expectedStatus, statusCompleted);
         assertEquals(expectedLeftTime, actualLeftTime);
     }
 
@@ -60,12 +48,22 @@ public class StatusCalculatorTest {
     public void checkInProcessStatusCourseIfWeHaveValidParameters(String endTime, String now, String actualLeftTime) {
         Instant nowTime = Instant.parse(now);
         Instant finishTime = Instant.parse(endTime);
+        Student student = getStudent();
+        String statusInProcess = "Training is not finished.";
 
         Student studentWithStatus = statusCalculator.enrichStudent(nowTime, finishTime, student);
         String expectedStatus = studentWithStatus.getProgram().getStatusCourse();
         String expectedLeftTime = studentWithStatus.getProgram().getLeftTime();
 
-        assertEquals(expectedStatus, STATUS_IN_PROCESS);
+        assertEquals(expectedStatus, statusInProcess);
         assertEquals(expectedLeftTime, actualLeftTime);
+    }
+
+    private static Student getStudent() {
+        Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
+        Duration duration = Duration.of(9, ChronoUnit.HOURS);
+        Curriculum curriculum = new Curriculum("Java", startTimeFr, null, duration);
+        Program program = new Program(curriculum, null, null);
+        return new Student("Ivan", "Ivanov", program);
     }
 }

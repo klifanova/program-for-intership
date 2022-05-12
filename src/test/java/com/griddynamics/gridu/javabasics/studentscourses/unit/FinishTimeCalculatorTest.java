@@ -1,7 +1,7 @@
-package internship.unit;
+package com.griddynamics.gridu.javabasics.studentscourses.unit;
 
-import internship.FinishTimeCalculatorImpl;
-import internship.exception.InvalidDurationException;
+import com.griddynamics.gridu.javabasics.studentscourses.FinishTimeCalculatorImpl;
+import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidDurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,9 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FinishTimeCalculatorTest {
 
     private FinishTimeCalculatorImpl findingEndingTimeForStudent;
-    private Duration duration;
-    private Instant expectedEndTimeDate;
-    private Instant actualEndTimeDate;
 
     @BeforeEach
     public void init() {
@@ -35,10 +32,10 @@ public class FinishTimeCalculatorTest {
     public void checkValidEndDateIfWeCalculateCorrectParameters(String startTime, int durationOfHours,
                                                                 String expectedEndTime) {
         Instant startStampTime = Instant.parse(startTime);
-        duration = Duration.of(durationOfHours, ChronoUnit.HOURS);
-        expectedEndTimeDate = Instant.parse(expectedEndTime);
+        Duration duration = Duration.of(durationOfHours, ChronoUnit.HOURS);
+        Instant expectedEndTimeDate = Instant.parse(expectedEndTime);
 
-        actualEndTimeDate = findingEndingTimeForStudent.calculateFinishTime(startStampTime, duration);
+        Instant actualEndTimeDate = findingEndingTimeForStudent.calculateFinishTime(startStampTime, duration);
 
         assertEquals(expectedEndTimeDate, actualEndTimeDate);
     }
@@ -51,7 +48,7 @@ public class FinishTimeCalculatorTest {
     })
     public void checkValidEndDateIfWeHaveDurationNoValid(String startTime, int durationOfHours) {
         Instant startStampTime = Instant.parse(startTime);
-        duration = Duration.of(durationOfHours, ChronoUnit.HOURS);
+        Duration duration = Duration.of(durationOfHours, ChronoUnit.HOURS);
 
         assertThrows(InvalidDurationException.class, () -> {
             findingEndingTimeForStudent.calculateFinishTime(startStampTime, duration);

@@ -1,4 +1,4 @@
-package internship.model.student;
+package com.griddynamics.gridu.javabasics.studentscourses.model.student;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

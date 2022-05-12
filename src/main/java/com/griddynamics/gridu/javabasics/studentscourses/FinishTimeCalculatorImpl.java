@@ -1,10 +1,12 @@
-package internship;
+package com.griddynamics.gridu.javabasics.studentscourses;
 
-import internship.exception.InvalidDurationException;
+import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidDurationException;
 
 import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+
+//Calculate finish time, if we have duration and start time course
 
 public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
 
@@ -18,20 +20,20 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
     @Override
     public Instant calculateFinishTime(Instant startTimeForStudent, Duration duration) {
         LocalDateTime startDate = LocalDateTime.ofInstant(startTimeForStudent, ZONE_OFFSET);
-        long durationOfHours = duration.toHours();
-        if (duration.toHours() <= 0) {
+        int durationOfHours = (int) duration.toHours();
+        if (durationOfHours <= 0) {
             throw new InvalidDurationException(String.format("We don't have course with %s duration." +
                     "It's not valid duration.", duration.toHours()));
         }
-        int weeks = (int) durationOfHours / WORK_HOURS_IN_WEEK;
-        int days = (int) ((durationOfHours - weeks * WORK_HOURS_IN_WEEK) / WORK_HOURS);
-        int hours = (int) (durationOfHours % WORK_HOURS);
+        int weeks = durationOfHours / WORK_HOURS_IN_WEEK;
+        int days = (durationOfHours - weeks * WORK_HOURS_IN_WEEK) / WORK_HOURS;
+        int hours = (durationOfHours % WORK_HOURS);
 
         LocalDateTime startDateWithoutWeekend = shiftStartDateFromWeekend(startDate);
         LocalDateTime startDateForWorkHours = shiftStartDateForWorkHours(startDateWithoutWeekend);
-        LocalDateTime timeWithoutWeekend = addDaysSkippingWeekends(startDateForWorkHours,
+        LocalDateTime timeWithoutWeekend = getDaysSkippingWeekends(startDateForWorkHours,
                 days + weeks * WORK_DAY_IN_WEEK);
-        LocalDateTime finishTime = addHoursSkippingNotWorkHours(timeWithoutWeekend, hours);
+        LocalDateTime finishTime = getHoursSkippingNotWorkHours(timeWithoutWeekend, hours);
 
         return shiftDayFromWeekend(finishTime).toInstant(ZoneOffset.UTC);
     }
@@ -58,7 +60,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         }
     }
 
-    private static LocalDateTime addDaysSkippingWeekends(LocalDateTime date, int days) {
+    private static LocalDateTime getDaysSkippingWeekends(LocalDateTime date, int days) {
         LocalDateTime result = date;
         int addedDays = 0;
         while (addedDays < days) {
@@ -70,7 +72,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         return result;
     }
 
-    private static LocalDateTime addHoursSkippingNotWorkHours(LocalDateTime date, int hours) {
+    private static LocalDateTime getHoursSkippingNotWorkHours(LocalDateTime date, int hours) {
         if (date.getHour() + hours >= WORK_HOUR_END) {
             int leftHoursForNextDay = hours - (WORK_HOUR_END - date.getHour());
             return date.plus(1, ChronoUnit.DAYS)

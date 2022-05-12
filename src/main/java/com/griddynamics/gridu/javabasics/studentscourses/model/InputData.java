@@ -1,8 +1,10 @@
-package internship.model;
+package com.griddynamics.gridu.javabasics.studentscourses.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+//Model for input data
 
 @Data
 @NoArgsConstructor
@@ -11,5 +13,5 @@ public class InputData {
 
     private String nameFile;
     private String time;
-    private String outputDataType;
+    private OutputDataType outputDataType;
 }

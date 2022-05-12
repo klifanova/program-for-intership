@@ -1,10 +1,12 @@
-package internship.model;
+package com.griddynamics.gridu.javabasics.studentscourses.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
+//Model for output data
 
 @Data
 @NoArgsConstructor
@@ -13,6 +15,5 @@ public class CoursesSummaryInfo {
 
     List<String> inProgressCoursesStudentsList;
     List<String> completeCoursesStudentList;
-    List<String> notHaveCoursesStudentList;
-
+    List<String> noCourseStudentList;
 }

@@ -1,13 +1,15 @@
-package internship;
+package com.griddynamics.gridu.javabasics.studentscourses;
 
-import internship.model.student.Program;
-import internship.model.student.Student;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+
+//Updating the student's course status. Updating the left time student without weekend, not working hours.
 
 public class EnrichingStudentImpl implements EnrichingStudent {
 
@@ -22,29 +24,29 @@ public class EnrichingStudentImpl implements EnrichingStudent {
         long durationOfDays = Math.abs(nowTime.until(endTime, ChronoUnit.DAYS));
         long durationOfHours = Math.abs(nowTime.until(endTime, ChronoUnit.HOURS));
         Program program = student.getProgram();
-        long leftDurationOfHours = (int) ((int) durationOfHours - durationOfDays * HOURS_OF_DAY);
-        int leftDaysForNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
-        int leftDaysForEnd = calculateDurationWithoutWeekend(endTime, durationOfDays, leftDurationOfHours);
+        int leftDurationOfHours = (int) (durationOfHours - durationOfDays * HOURS_OF_DAY);
+        int leftDaysFromNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
+        int leftDaysToEnd = calculateDurationWithoutWeekend(endTime, durationOfDays, leftDurationOfHours);
         int leftHours = calculateDurationWithWorkHours(leftDurationOfHours);
 
         if (endTime.isAfter(nowTime)) {
             student.getProgram().setStatusCourse(STATUS_IN_PROCESS);
-            if (leftDaysForNow == 0) {
+            if (leftDaysFromNow == 0) {
                 program.setLeftTime(leftHours + " h. are left unit the end.");
             } else if (leftHours == 0 || leftHours == 8) {
-                program.setLeftTime(leftDaysForNow + " d. are left unit the end.");
+                program.setLeftTime(leftDaysFromNow + " d. are left unit the end.");
             } else {
-                program.setLeftTime(leftDaysForNow + " d. " + leftHours + " h." + " are left unit the end.");
+                program.setLeftTime(leftDaysFromNow + " d. " + leftHours + " h." + " are left unit the end.");
             }
             return student;
         } else if (endTime.isBefore(nowTime)) {
             program.setStatusCourse(STATUS_COMPLETED);
-            if (leftDaysForEnd == 0) {
+            if (leftDaysToEnd == 0) {
                 program.setLeftTime(leftHours + " h. have passed since the end.");
             } else if (leftHours == 0 || leftHours == 8) {
-                program.setLeftTime(leftDaysForEnd + " d. have passed since the end.");
+                program.setLeftTime(leftDaysToEnd + " d. have passed since the end.");
             } else {
-                program.setLeftTime(leftDaysForEnd + " d. " + leftHours + " h." + " have passed since the end.");
+                program.setLeftTime(leftDaysToEnd + " d. " + leftHours + " h." + " have passed since the end.");
             }
         } else {
             program.setStatusCourse(STATUS_COMPLETED);
@@ -54,7 +56,7 @@ public class EnrichingStudentImpl implements EnrichingStudent {
         return student;
     }
 
-    private static int calculateDurationWithoutWeekend(Instant startDate, long durationOfDays, long leftDurationOfHours) {
+    private static int calculateDurationWithoutWeekend(Instant startDate, long durationOfDays, int leftDurationOfHours) {
         int days = 0;
         LocalDateTime result = LocalDateTime.ofInstant(startDate, ZONE_OFFSET);
         int addedDays = 0;

@@ -1,4 +1,4 @@
-package internship;
+package com.griddynamics.gridu.javabasics.studentscourses;
 
 import java.time.Duration;
 import java.time.Instant;

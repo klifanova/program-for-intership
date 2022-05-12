@@ -1,6 +1,6 @@
-package internship;
+package com.griddynamics.gridu.javabasics.studentscourses;
 
-import internship.model.student.Student;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 
 import java.time.Instant;
 

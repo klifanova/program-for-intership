@@ -1,4 +1,4 @@
-package internship;
+package com.griddynamics.gridu.javabasics.studentscourses;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+//Converter Json to special class Java Objects
 
 public class JsonConverter {
 
