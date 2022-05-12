@@ -5,7 +5,6 @@ import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculu
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Training;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

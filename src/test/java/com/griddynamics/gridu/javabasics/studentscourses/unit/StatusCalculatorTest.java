@@ -4,7 +4,6 @@ import com.griddynamics.gridu.javabasics.studentscourses.EnrichingStudentImpl;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
