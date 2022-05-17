@@ -6,7 +6,9 @@ import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
-//Calculate finish time, if we have duration and start time course
+/**
+ * Calculate finish time, if we have duration and start time course.
+ */
 
 public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
 
@@ -16,6 +18,13 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
     private static final int WORK_HOURS = WORK_HOUR_END - WORK_HOUR_START;
     private static final int WORK_HOURS_IN_WEEK = WORK_HOURS * 5;
     private static final int WORK_DAY_IN_WEEK = 5;
+
+    /**
+     * This method calculates end time considering only working hours and days.
+     * @param startTimeForStudent
+     * @param duration
+     * @return Instant
+     */
 
     @Override
     public Instant calculateFinishTime(Instant startTimeForStudent, Duration duration) {

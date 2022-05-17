@@ -21,7 +21,7 @@ public class JsonConverterTest {
     private JsonConverter jsonConverter = new JsonConverter();
 
     @Test
-    public void checkValidStudentIfWeConvertFromValidJsonFile() {
+    public void checkStudentIfWeConvertFromValidJsonFile() {
         String STUDENT_DATA_FILE = "src/test/resources/students-data.json";
         Training expectedTraining = jsonConverter.converterJson(STUDENT_DATA_FILE, Training.class);
         Training actualTraining = getTraining();

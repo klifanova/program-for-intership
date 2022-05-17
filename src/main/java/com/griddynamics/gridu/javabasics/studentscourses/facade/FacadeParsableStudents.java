@@ -1,7 +1,7 @@
 package com.griddynamics.gridu.javabasics.studentscourses.facade;
 
 import com.griddynamics.gridu.javabasics.studentscourses.*;
-import com.griddynamics.gridu.javabasics.studentscourses.model.OutputDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.input.OutputDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.SummaryStudentsInfo;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
@@ -14,7 +14,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-//Distribution of students on three lists
+/**
+ * Distribution of students on three lists
+ */
 
 public class FacadeParsableStudents {
 
@@ -25,21 +27,27 @@ public class FacadeParsableStudents {
     private EnrichingStudent enrichingStudent = new EnrichingStudentImpl();
     private JsonConverter jsonConverter = new JsonConverter();
 
-    public CoursesSummaryInfo getParsedStudentsData(String nameFile, Instant nowDate, OutputDataType typeOutputData) {
+    /**
+     * Returns: CoursesSummaryInfo;
+     * Params: fileName, nowDate and outputDataType;
+     * This method lists students based on their course status.
+     */
+
+    public CoursesSummaryInfo getParsedStudentsData(String fileName, Instant nowDate, OutputDataType outputDataType) {
         List<Student> inProgressCourseStudentsList = new ArrayList<>();
         List<Student> completeCourseStudentsList = new ArrayList<>();
         List<Student> noCourseStudentsList = new ArrayList<>();
-        Training training = jsonConverter.converterJson(nameFile, Training.class);
+        Training training = jsonConverter.converterJson(fileName, Training.class);
         List<Student> dataStudentFromFile = training.getStudentList();
-        Instant endDate = null;
 
         for (Student student : dataStudentFromFile) {
             Curriculum curriculum = student.getProgram().getCurriculum();
             Instant startTime = curriculum.getStartTimeCourse();
             Duration duration = curriculum.getDuration();
-            endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
+            Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
             student.getProgram().getCurriculum().setEndTimeCourse(endDate);
             student = enrichingStudent.enrichStudent(nowDate, endDate, student);
+
             String status = student.getProgram().getStatusCourse();
 
             if (status.equals(STATUS_IN_PROCESS)) {
@@ -54,10 +62,12 @@ public class FacadeParsableStudents {
         SummaryStudentsInfo summaryStudentsInfo = new SummaryStudentsInfo(inProgressCourseStudentsList,
                 completeCourseStudentsList, noCourseStudentsList);
 
-        return getCoursesSummaryInfo(typeOutputData, summaryStudentsInfo);
+        return getCoursesSummaryInfo(outputDataType, summaryStudentsInfo);
     }
 
-    private List<String> getShortDataStudents(List<Student> students, List<String> studentsList) {
+    private List<String> getShortDataStudents(List<Student> students) {
+        List<String> studentsList = new ArrayList<>();
+
         for (Student item : students) {
             Program program = item.getProgram();
             studentsList.add("\n" + item.getFullName() + " ( " + program.getCurriculum().getName() + " ) - "
@@ -66,7 +76,9 @@ public class FacadeParsableStudents {
         return studentsList;
     }
 
-    private List<String> getFullDataStudents(List<Student> students, List<String> studentsList) {
+    private List<String> getFullDataStudents(List<Student> students) {
+        List<String> studentsList = new ArrayList<>();
+
         for (Student item : students) {
             Program program = item.getProgram();
             Curriculum curriculum = program.getCurriculum();
@@ -79,7 +91,13 @@ public class FacadeParsableStudents {
         return studentsList;
     }
 
-    private CoursesSummaryInfo getCoursesSummaryInfo(OutputDataType typeOutputData,
+    /**
+     * Returns: CoursesSummaryInfo;
+     * Params: summaryStudentsInfo and outputDataType;
+     * This method determines in what format to output CoursesSummaryInfo.
+     */
+
+    private CoursesSummaryInfo getCoursesSummaryInfo(OutputDataType outputDataType,
                                                      SummaryStudentsInfo summaryStudentsInfo) {
         List<String> listDataStudentsInProcessCourse = new ArrayList<>();
         List<String> listDataStudentsCompleteCourse = new ArrayList<>();
@@ -89,15 +107,15 @@ public class FacadeParsableStudents {
         List<Student> completeCourseStudentsList = summaryStudentsInfo.getCompleteCoursesStudentList();
         List<Student> noCourseStudentsList = summaryStudentsInfo.getNoCourseStudentList();
 
-        if (OutputDataType.SHORT == typeOutputData) {
-            getShortDataStudents(inProgressCourseStudentsList, listDataStudentsInProcessCourse);
-            getShortDataStudents(completeCourseStudentsList, listDataStudentsCompleteCourse);
-            getShortDataStudents(noCourseStudentsList, listDataStudentsNotHaveCourse);
+        if (OutputDataType.SHORT == outputDataType) {
+            listDataStudentsInProcessCourse = getShortDataStudents(inProgressCourseStudentsList);
+            listDataStudentsCompleteCourse = getShortDataStudents(completeCourseStudentsList);
+            listDataStudentsNotHaveCourse = getShortDataStudents(noCourseStudentsList);
         }
-        if (OutputDataType.FULL == typeOutputData) {
-            getFullDataStudents(inProgressCourseStudentsList, listDataStudentsInProcessCourse);
-            getFullDataStudents(completeCourseStudentsList, listDataStudentsCompleteCourse);
-            getFullDataStudents(noCourseStudentsList, listDataStudentsNotHaveCourse);
+        if (OutputDataType.FULL == outputDataType) {
+            listDataStudentsInProcessCourse = getFullDataStudents(inProgressCourseStudentsList);
+            listDataStudentsCompleteCourse = getFullDataStudents(completeCourseStudentsList);
+            listDataStudentsNotHaveCourse = getFullDataStudents(noCourseStudentsList);
         }
         return new CoursesSummaryInfo(listDataStudentsInProcessCourse,
                 listDataStudentsCompleteCourse, listDataStudentsNotHaveCourse);

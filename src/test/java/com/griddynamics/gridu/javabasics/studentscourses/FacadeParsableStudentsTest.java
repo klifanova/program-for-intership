@@ -2,7 +2,7 @@ package com.griddynamics.gridu.javabasics.studentscourses;
 
 import com.griddynamics.gridu.javabasics.studentscourses.facade.FacadeParsableStudents;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.OutputDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.input.OutputDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;

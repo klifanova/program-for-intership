@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-//Model for output data
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

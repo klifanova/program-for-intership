@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-//Converter Json to special class Java Objects
+/**
+ * Converter Json to special class Java Objects
+ */
 
 public class JsonConverter {
 

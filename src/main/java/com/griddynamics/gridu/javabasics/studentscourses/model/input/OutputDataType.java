@@ -1,8 +1,8 @@
-package com.griddynamics.gridu.javabasics.studentscourses.model;
+package com.griddynamics.gridu.javabasics.studentscourses.model.input;
 
 public enum OutputDataType {
-    SHORT("short"),
-    FULL("full");
+    SHORT("SHORT"),
+    FULL("FULL");
 
     private final String name;
 

@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-//Updating the student's course status. Updating the left time student without weekend, not working hours.
+/**
+ * Updating the student's course status. Updating the left time student without weekend, not working hours.
+ */
 
 public class EnrichingStudentImpl implements EnrichingStudent {
 
@@ -19,6 +21,15 @@ public class EnrichingStudentImpl implements EnrichingStudent {
     private static final int WORK_HOURS_OF_DAY = 8;
     private static final String STATUS_IN_PROCESS = "Training is not finished.";
     private static final String STATUS_COMPLETED = "Training completed.";
+
+    /**
+     * This method enriches data Student: updates leftTime and statusCourse only in working hours and days.
+     *
+     * @param nowTime
+     * @param endTime
+     * @param student
+     * @return Student
+     */
 
     public Student enrichStudent(Instant nowTime, Instant endTime, Student student) {
         long durationOfDays = Math.abs(nowTime.until(endTime, ChronoUnit.DAYS));

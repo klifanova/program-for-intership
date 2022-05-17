@@ -29,7 +29,7 @@ public class FinishTimeCalculatorTest {
             "2022-04-02T09:00:00.00Z , 73 , 2022-04-15T11:00:00.00Z",
             "2022-04-01T10:00:00.00Z , 88, 2022-04-18T18:00:00.00Z",
     })
-    public void checkValidEndDateIfWeCalculateCorrectParameters(String startTime, int durationOfHours,
+    public void checkEndDateIfWeCalculateCorrectParameters(String startTime, int durationOfHours,
                                                                 String expectedEndTime) {
         Instant startStampTime = Instant.parse(startTime);
         Duration duration = Duration.of(durationOfHours, ChronoUnit.HOURS);
@@ -46,7 +46,7 @@ public class FinishTimeCalculatorTest {
             "2022-04-02T10:00:00.00Z , -1",
             "2022-04-03T10:00:00.00Z , -99"
     })
-    public void checkValidEndDateIfWeHaveDurationNoValid(String startTime, int durationOfHours) {
+    public void checkEndDateIfWeHaveNoValidDuration(String startTime, int durationOfHours) {
         Instant startStampTime = Instant.parse(startTime);
         Duration duration = Duration.of(durationOfHours, ChronoUnit.HOURS);
 

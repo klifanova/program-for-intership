@@ -14,8 +14,8 @@ the student completed the course.
 
 Input data to the console:
 
-`namefile, date, typeOutputData`
+`fileName date outputDataType`
 
 An example of input data:
 
-`src/main/resources/students-data.json, 2022-04-05T10:00:00.00Z, short`
+`src/main/resources/students-data.json 2022-04-05T10:00:00.00Z full`
