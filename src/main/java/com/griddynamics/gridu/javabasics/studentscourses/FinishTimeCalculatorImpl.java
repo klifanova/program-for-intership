@@ -21,9 +21,10 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
 
     /**
      * This method calculates end time considering only working hours and days.
-     * @param startTimeForStudent
-     * @param duration
-     * @return Instant
+     *
+     * @param startTimeForStudent - the start date for course
+     * @param duration            - course duration in hours
+     * @return Instant - the finish date for course
      */
 
     @Override

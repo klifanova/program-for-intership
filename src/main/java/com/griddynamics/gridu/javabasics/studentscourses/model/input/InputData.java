@@ -11,5 +11,5 @@ public class InputData {
 
     String fileName;
     String time;
-    OutputDataType outputDataType;
+    RetortDataType retortDataType;
 }

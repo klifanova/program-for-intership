@@ -2,7 +2,7 @@ package com.griddynamics.gridu.javabasics.studentscourses;
 
 import com.griddynamics.gridu.javabasics.studentscourses.facade.FacadeParsableStudents;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.input.OutputDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.input.RetortDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
@@ -43,7 +43,7 @@ public class FacadeParsableStudentsTest {
         String nameFile = "student-data-one.json";
         Instant time = Instant.parse("2022-04-05T10:00:00.00Z");
         Instant end = Instant.parse("2022-04-05T16:00:00.00Z");
-        OutputDataType outputDataType = OutputDataType.FULL;
+        RetortDataType retortDataType = RetortDataType.FULL;
         Student student = getStudent(end);
         Training training = getTraining(student, 5);
         String dataStudent = "\nstudent name: Ivan Ivanov; working time: from 10:00 to 18:00; program name: Java;" +
@@ -56,7 +56,7 @@ public class FacadeParsableStudentsTest {
         when(finishTimeCalculator.calculateFinishTime(any(), any())).thenReturn(end);
         when(enrichingStudent.enrichStudent(any(), any(), any())).thenReturn(student);
 
-        CoursesSummaryInfo actualSummary = facade.getParsedStudentsData(nameFile, time, outputDataType);
+        CoursesSummaryInfo actualSummary = facade.getParsedStudentsData(nameFile, time, retortDataType);
 
         verify(jsonConverter).converterJson(any(), any());
         assertEquals(expectedSummary, actualSummary);
@@ -67,7 +67,7 @@ public class FacadeParsableStudentsTest {
         String nameFile = "student-data-one.json";
         Instant time = Instant.parse("2022-04-05T10:00:00.00Z");
         Instant end = Instant.parse("2022-04-05T16:00:00.00Z");
-        OutputDataType typeOutputData = OutputDataType.SHORT;
+        RetortDataType retortDataType = RetortDataType.SHORT;
         Student student = getStudent(end);
         Training training = getTraining(student, 5);
         String dataStudent = "\nIvan Ivanov ( Java ) - Training completed. 5 d. have passed since the end.";
@@ -78,7 +78,7 @@ public class FacadeParsableStudentsTest {
         when(finishTimeCalculator.calculateFinishTime(any(), any())).thenReturn(end);
         when(enrichingStudent.enrichStudent(any(), any(), any())).thenReturn(student);
 
-        CoursesSummaryInfo actualSummary = facade.getParsedStudentsData(nameFile, time, typeOutputData);
+        CoursesSummaryInfo actualSummary = facade.getParsedStudentsData(nameFile, time, retortDataType);
 
         verify(jsonConverter).converterJson(any(), any());
         assertEquals(expectedSummary, actualSummary);

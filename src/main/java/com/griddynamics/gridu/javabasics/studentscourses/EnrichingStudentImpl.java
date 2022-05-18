@@ -25,10 +25,10 @@ public class EnrichingStudentImpl implements EnrichingStudent {
     /**
      * This method enriches data Student: updates leftTime and statusCourse only in working hours and days.
      *
-     * @param nowTime
-     * @param endTime
-     * @param student
-     * @return Student
+     * @param nowTime - the specific date
+     * @param endTime - the finish date for course
+     * @param student - the data of student
+     * @return Student - to enrich the data of student
      */
 
     public Student enrichStudent(Instant nowTime, Instant endTime, Student student) {

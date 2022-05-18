@@ -14,7 +14,7 @@ the student completed the course.
 
 Input data to the console:
 
-`fileName date outputDataType`
+`fileName date reportDataType`
 
 An example of input data:
 

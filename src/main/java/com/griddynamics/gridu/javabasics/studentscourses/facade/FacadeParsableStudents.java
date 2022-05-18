@@ -1,7 +1,7 @@
 package com.griddynamics.gridu.javabasics.studentscourses.facade;
 
 import com.griddynamics.gridu.javabasics.studentscourses.*;
-import com.griddynamics.gridu.javabasics.studentscourses.model.input.OutputDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.input.RetortDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.SummaryStudentsInfo;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
@@ -28,12 +28,15 @@ public class FacadeParsableStudents {
     private JsonConverter jsonConverter = new JsonConverter();
 
     /**
-     * Returns: CoursesSummaryInfo;
-     * Params: fileName, nowDate and outputDataType;
      * This method lists students based on their course status.
+     *
+     * @param fileName       - the path to the file
+     * @param nowDate        - the specific date
+     * @param reportDataType - the data output form
+     * @return CoursesSummaryInfo - the info containing lists of students with special format
      */
 
-    public CoursesSummaryInfo getParsedStudentsData(String fileName, Instant nowDate, OutputDataType outputDataType) {
+    public CoursesSummaryInfo getParsedStudentsData(String fileName, Instant nowDate, RetortDataType reportDataType) {
         List<Student> inProgressCourseStudentsList = new ArrayList<>();
         List<Student> completeCourseStudentsList = new ArrayList<>();
         List<Student> noCourseStudentsList = new ArrayList<>();
@@ -62,7 +65,7 @@ public class FacadeParsableStudents {
         SummaryStudentsInfo summaryStudentsInfo = new SummaryStudentsInfo(inProgressCourseStudentsList,
                 completeCourseStudentsList, noCourseStudentsList);
 
-        return getCoursesSummaryInfo(outputDataType, summaryStudentsInfo);
+        return getCoursesSummaryInfo(reportDataType, summaryStudentsInfo);
     }
 
     private List<String> getShortDataStudents(List<Student> students) {
@@ -92,12 +95,14 @@ public class FacadeParsableStudents {
     }
 
     /**
-     * Returns: CoursesSummaryInfo;
-     * Params: summaryStudentsInfo and outputDataType;
      * This method determines in what format to output CoursesSummaryInfo.
+     *
+     * @param retortDataType      - the data output form
+     * @param summaryStudentsInfo - the info containing lists of students
+     * @return CoursesSummaryInfo - the info containing lists of students with special format
      */
 
-    private CoursesSummaryInfo getCoursesSummaryInfo(OutputDataType outputDataType,
+    private CoursesSummaryInfo getCoursesSummaryInfo(RetortDataType retortDataType,
                                                      SummaryStudentsInfo summaryStudentsInfo) {
         List<String> listDataStudentsInProcessCourse = new ArrayList<>();
         List<String> listDataStudentsCompleteCourse = new ArrayList<>();
@@ -107,12 +112,12 @@ public class FacadeParsableStudents {
         List<Student> completeCourseStudentsList = summaryStudentsInfo.getCompleteCoursesStudentList();
         List<Student> noCourseStudentsList = summaryStudentsInfo.getNoCourseStudentList();
 
-        if (OutputDataType.SHORT == outputDataType) {
+        if (RetortDataType.SHORT == retortDataType) {
             listDataStudentsInProcessCourse = getShortDataStudents(inProgressCourseStudentsList);
             listDataStudentsCompleteCourse = getShortDataStudents(completeCourseStudentsList);
             listDataStudentsNotHaveCourse = getShortDataStudents(noCourseStudentsList);
         }
-        if (OutputDataType.FULL == outputDataType) {
+        if (RetortDataType.FULL == retortDataType) {
             listDataStudentsInProcessCourse = getFullDataStudents(inProgressCourseStudentsList);
             listDataStudentsCompleteCourse = getFullDataStudents(completeCourseStudentsList);
             listDataStudentsNotHaveCourse = getFullDataStudents(noCourseStudentsList);

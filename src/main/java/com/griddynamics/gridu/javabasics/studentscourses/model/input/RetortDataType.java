@@ -1,12 +1,12 @@
 package com.griddynamics.gridu.javabasics.studentscourses.model.input;
 
-public enum OutputDataType {
+public enum RetortDataType {
     SHORT("SHORT"),
     FULL("FULL");
 
     private final String name;
 
-    OutputDataType(String name) {
+    RetortDataType(String name) {
         this.name = name;
     }
 }

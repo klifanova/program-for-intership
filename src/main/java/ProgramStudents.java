@@ -1,7 +1,7 @@
 import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidOutputDataTypeException;
 import com.griddynamics.gridu.javabasics.studentscourses.facade.FacadeParsableStudents;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.input.OutputDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.input.RetortDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.input.InputData;
 
 import java.time.Instant;
@@ -17,7 +17,7 @@ public class ProgramStudents {
     /**
      * This method prints lists of students to the console.
      *
-     * @param args
+     * @param args - the input data includes fileName, date and reportDataType
      */
 
     public static void main(String[] args) {
@@ -25,18 +25,18 @@ public class ProgramStudents {
         inputData.setFileName(args[0]);
         inputData.setTime(args[1]);
         Instant instant = Instant.parse(inputData.getTime());
-        String outputDataType = args[2];
-        outputDataType = outputDataType.toUpperCase();
-        if (!(outputDataType.equals(OutputDataType.FULL.name()) || outputDataType.equals(OutputDataType.SHORT.name()))) {
-            throw new InvalidOutputDataTypeException(String.format("It's not correct %s outputDataType."
-                    , outputDataType));
+        String reportData = args[2];
+        reportData = reportData.toUpperCase();
+        if (!(reportData.equals(RetortDataType.FULL.name()) || reportData.equals(RetortDataType.SHORT.name()))) {
+            throw new InvalidOutputDataTypeException(String.format("It's not correct %s reportData."
+                    , reportData));
         }
-        OutputDataType outputData = OutputDataType.valueOf(outputDataType);
-        inputData.setOutputDataType(outputData);
+        RetortDataType retortDataType = RetortDataType.valueOf(reportData);
+        inputData.setRetortDataType(retortDataType);
         FacadeParsableStudents facadeParsableStudents = new FacadeParsableStudents();
 
         CoursesSummaryInfo coursesSummaryInfo = facadeParsableStudents.getParsedStudentsData(inputData.getFileName(),
-                instant, inputData.getOutputDataType());
+                instant, inputData.getRetortDataType());
         printStudentsData("List students in process course :",
                 coursesSummaryInfo.getInProgressCoursesStudentsList());
         printStudentsData("List students complete course :",
