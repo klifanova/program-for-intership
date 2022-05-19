@@ -1,4 +1,4 @@
-package com.griddynamics.gridu.javabasics.studentscourses.model.input;
+package com.griddynamics.gridu.javabasics.studentscourses.model.inputdata;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,5 +11,5 @@ public class InputData {
 
     String fileName;
     String time;
-    RetortDataType retortDataType;
+    ReportDataType retortDataType;
 }

@@ -3,6 +3,7 @@ package com.griddynamics.gridu.javabasics.studentscourses.unit;
 import com.griddynamics.gridu.javabasics.studentscourses.EnrichingStudentImpl;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCourse;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -28,10 +29,10 @@ public class StatusCalculatorTest {
         Instant nowTime = Instant.parse(now);
         Instant finishTime = Instant.parse(endTime);
         Student student = getStudent();
-        String statusCompleted = "Training completed.";
+        StatusCourse statusCompleted = StatusCourse.COMPLETED;
 
         Student studentWithStatus = statusCalculator.enrichStudent(nowTime, finishTime, student);
-        String expectedStatus = studentWithStatus.getProgram().getStatusCourse();
+        StatusCourse expectedStatus = studentWithStatus.getProgram().getStatusCourse();
         String expectedLeftTime = studentWithStatus.getProgram().getLeftTime();
 
         assertEquals(expectedStatus, statusCompleted);
@@ -48,10 +49,10 @@ public class StatusCalculatorTest {
         Instant nowTime = Instant.parse(now);
         Instant finishTime = Instant.parse(endTime);
         Student student = getStudent();
-        String statusInProcess = "Training is not finished.";
+        StatusCourse statusInProcess = StatusCourse.IN_PROCESS;
 
         Student studentWithStatus = statusCalculator.enrichStudent(nowTime, finishTime, student);
-        String expectedStatus = studentWithStatus.getProgram().getStatusCourse();
+        StatusCourse expectedStatus = studentWithStatus.getProgram().getStatusCourse();
         String expectedLeftTime = studentWithStatus.getProgram().getLeftTime();
 
         assertEquals(expectedStatus, statusInProcess);

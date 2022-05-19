@@ -22,12 +22,11 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
     /**
      * This method calculates end time considering only working hours and days.
      *
-     * @param startTimeForStudent - the start date for course
+     * @param startTimeForStudent - the start date of course
      * @param duration            - course duration in hours
-     * @return Instant - the finish date for course
+     * @return Instant - the finish date of course
      */
 
-    @Override
     public Instant calculateFinishTime(Instant startTimeForStudent, Duration duration) {
         LocalDateTime startDate = LocalDateTime.ofInstant(startTimeForStudent, ZONE_OFFSET);
         int durationOfHours = (int) duration.toHours();
@@ -48,7 +47,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         return shiftDayFromWeekend(finishTime).toInstant(ZoneOffset.UTC);
     }
 
-    private static LocalDateTime shiftStartDateFromWeekend(LocalDateTime startDate) {
+    private LocalDateTime shiftStartDateFromWeekend(LocalDateTime startDate) {
         if (startDate.getDayOfWeek() == DayOfWeek.SATURDAY) {
             return startDate.plusDays(2)
                     .with(ChronoField.HOUR_OF_DAY, WORK_HOUR_START);
@@ -59,7 +58,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         return startDate;
     }
 
-    private static LocalDateTime shiftStartDateForWorkHours(LocalDateTime startDate) {
+    private LocalDateTime shiftStartDateForWorkHours(LocalDateTime startDate) {
         if (startDate.getHour() > WORK_HOUR_END) {
             return startDate.plusDays(1)
                     .with(ChronoField.HOUR_OF_DAY, WORK_HOUR_START);
@@ -70,7 +69,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         }
     }
 
-    private static LocalDateTime getDaysSkippingWeekends(LocalDateTime date, int days) {
+    private LocalDateTime getDaysSkippingWeekends(LocalDateTime date, int days) {
         LocalDateTime result = date;
         int addedDays = 0;
         while (addedDays < days) {
@@ -82,7 +81,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         return result;
     }
 
-    private static LocalDateTime getHoursSkippingNotWorkHours(LocalDateTime date, int hours) {
+    private LocalDateTime getHoursSkippingNotWorkHours(LocalDateTime date, int hours) {
         if (date.getHour() + hours >= WORK_HOUR_END) {
             int leftHoursForNextDay = hours - (WORK_HOUR_END - date.getHour());
             return date.plus(1, ChronoUnit.DAYS)
@@ -96,7 +95,7 @@ public class FinishTimeCalculatorImpl implements FinishTimeCalculator {
         }
     }
 
-    private static LocalDateTime shiftDayFromWeekend(LocalDateTime day) {
+    private LocalDateTime shiftDayFromWeekend(LocalDateTime day) {
         if (day.get(ChronoField.DAY_OF_WEEK) == DayOfWeek.SATURDAY.getValue()) {
             return day.plus(2, ChronoUnit.DAYS);
         } else if (day.get(ChronoField.DAY_OF_WEEK) == DayOfWeek.SUNDAY.getValue()) {

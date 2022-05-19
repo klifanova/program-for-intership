@@ -1,13 +1,10 @@
 package com.griddynamics.gridu.javabasics.studentscourses.facade;
 
 import com.griddynamics.gridu.javabasics.studentscourses.*;
-import com.griddynamics.gridu.javabasics.studentscourses.model.input.RetortDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.SummaryStudentsInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.*;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Training;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -15,13 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Distribution of students on three lists
+ * Get info about students and put this info in three lists depending on the status course
  */
 
 public class FacadeParsableStudents {
-
-    private static final String STATUS_IN_PROCESS = "Training is not finished.";
-    private static final String STATUS_COMPLETED = "Training completed.";
 
     private FinishTimeCalculator finishTimeCalculator = new FinishTimeCalculatorImpl();
     private EnrichingStudent enrichingStudent = new EnrichingStudentImpl();
@@ -31,31 +25,34 @@ public class FacadeParsableStudents {
      * This method lists students based on their course status.
      *
      * @param fileName       - the path to the file
-     * @param nowDate        - the specific date
-     * @param reportDataType - the data output form
+     * @param nowDate        - the specific date for which report will be generated
+     * @param reportDataType - the form of report data
      * @return CoursesSummaryInfo - the info containing lists of students with special format
      */
 
-    public CoursesSummaryInfo getParsedStudentsData(String fileName, Instant nowDate, RetortDataType reportDataType) {
+    public CoursesSummaryInfo getParsedStudentsData(String fileName, Instant nowDate, ReportDataType reportDataType) {
         List<Student> inProgressCourseStudentsList = new ArrayList<>();
         List<Student> completeCourseStudentsList = new ArrayList<>();
         List<Student> noCourseStudentsList = new ArrayList<>();
-        Training training = jsonConverter.converterJson(fileName, Training.class);
-        List<Student> dataStudentFromFile = training.getStudentList();
 
-        for (Student student : dataStudentFromFile) {
+        Training training = jsonConverter.converterJson(fileName, Training.class);
+        List<Student> studentDataFromFile = training.getStudentList();
+
+        for (Student student : studentDataFromFile) {
             Curriculum curriculum = student.getProgram().getCurriculum();
             Instant startTime = curriculum.getStartTimeCourse();
             Duration duration = curriculum.getDuration();
+
             Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
             student.getProgram().getCurriculum().setEndTimeCourse(endDate);
             student = enrichingStudent.enrichStudent(nowDate, endDate, student);
 
-            String status = student.getProgram().getStatusCourse();
 
-            if (status.equals(STATUS_IN_PROCESS)) {
+            StatusCourse status = student.getProgram().getStatusCourse();
+
+            if (status == StatusCourse.IN_PROCESS) {
                 inProgressCourseStudentsList.add(student);
-            } else if (status.equals(STATUS_COMPLETED)) {
+            } else if (status == StatusCourse.COMPLETED) {
                 completeCourseStudentsList.add(student);
             } else {
                 noCourseStudentsList.add(student);
@@ -73,8 +70,8 @@ public class FacadeParsableStudents {
 
         for (Student item : students) {
             Program program = item.getProgram();
-            studentsList.add("\n" + item.getFullName() + " ( " + program.getCurriculum().getName() + " ) - "
-                    + program.getStatusCourse() + " " + program.getLeftTime());
+            studentsList.add(item.getFullName() + " ( " + program.getCurriculum().getName() + " ) - "
+                    + program.getStatusCourse().getStatus() + " " + program.getLeftTime());
         }
         return studentsList;
     }
@@ -85,7 +82,7 @@ public class FacadeParsableStudents {
         for (Student item : students) {
             Program program = item.getProgram();
             Curriculum curriculum = program.getCurriculum();
-            studentsList.add("\n" + "student name: " + item.getFullName() + "; " + "working time: from 10:00 to 18:00; "
+            studentsList.add("Student name: " + item.getFullName() + "; " + "working time: from 10:00 to 18:00; "
                     + "program name: " + curriculum.getName() + "; program duration: " +
                     curriculum.getDuration().toString() + "h.; start date: "
                     + curriculum.getStartTimeCourse().toString() + "; end date: "
@@ -95,16 +92,16 @@ public class FacadeParsableStudents {
     }
 
     /**
-     * This method determines in what format to output CoursesSummaryInfo.
+     * This method parse students data in specific report form(short/full) in CoursesSummaryInfo.
      *
-     * @param retortDataType      - the data output form
+     * @param reportDataType      - the form of report data
      * @param summaryStudentsInfo - the info containing lists of students
      * @return CoursesSummaryInfo - the info containing lists of students with special format
      */
 
-    private CoursesSummaryInfo getCoursesSummaryInfo(RetortDataType retortDataType,
+    private CoursesSummaryInfo getCoursesSummaryInfo(ReportDataType reportDataType,
                                                      SummaryStudentsInfo summaryStudentsInfo) {
-        List<String> listDataStudentsInProcessCourse = new ArrayList<>();
+        List<String> listDataStudentsInProcessCourse = new ArrayList<>(); //???
         List<String> listDataStudentsCompleteCourse = new ArrayList<>();
         List<String> listDataStudentsNotHaveCourse = new ArrayList<>();
 
@@ -112,12 +109,12 @@ public class FacadeParsableStudents {
         List<Student> completeCourseStudentsList = summaryStudentsInfo.getCompleteCoursesStudentList();
         List<Student> noCourseStudentsList = summaryStudentsInfo.getNoCourseStudentList();
 
-        if (RetortDataType.SHORT == retortDataType) {
+        if (reportDataType == ReportDataType.SHORT) {
             listDataStudentsInProcessCourse = getShortDataStudents(inProgressCourseStudentsList);
             listDataStudentsCompleteCourse = getShortDataStudents(completeCourseStudentsList);
             listDataStudentsNotHaveCourse = getShortDataStudents(noCourseStudentsList);
         }
-        if (RetortDataType.FULL == retortDataType) {
+        if (reportDataType == ReportDataType.FULL) {
             listDataStudentsInProcessCourse = getFullDataStudents(inProgressCourseStudentsList);
             listDataStudentsCompleteCourse = getFullDataStudents(completeCourseStudentsList);
             listDataStudentsNotHaveCourse = getFullDataStudents(noCourseStudentsList);

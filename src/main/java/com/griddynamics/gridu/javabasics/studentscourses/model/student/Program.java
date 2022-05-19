@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Program {
     Curriculum curriculum;
-    String statusCourse;
+    StatusCourse statusCourse;
     String leftTime;
 }

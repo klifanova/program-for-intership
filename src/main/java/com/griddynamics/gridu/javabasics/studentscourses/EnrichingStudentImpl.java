@@ -1,6 +1,7 @@
 package com.griddynamics.gridu.javabasics.studentscourses;
 
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCourse;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 
 import java.time.DayOfWeek;
@@ -19,13 +20,11 @@ public class EnrichingStudentImpl implements EnrichingStudent {
     private static final int HOURS_OF_DAY = 24;
     private static final int NOT_WORK_HOURS = 16;
     private static final int WORK_HOURS_OF_DAY = 8;
-    private static final String STATUS_IN_PROCESS = "Training is not finished.";
-    private static final String STATUS_COMPLETED = "Training completed.";
 
     /**
      * This method enriches data Student: updates leftTime and statusCourse only in working hours and days.
      *
-     * @param nowTime - the specific date
+     * @param nowTime - the specific date for which report will be generated
      * @param endTime - the finish date for course
      * @param student - the data of student
      * @return Student - to enrich the data of student
@@ -34,14 +33,16 @@ public class EnrichingStudentImpl implements EnrichingStudent {
     public Student enrichStudent(Instant nowTime, Instant endTime, Student student) {
         long durationOfDays = Math.abs(nowTime.until(endTime, ChronoUnit.DAYS));
         long durationOfHours = Math.abs(nowTime.until(endTime, ChronoUnit.HOURS));
-        Program program = student.getProgram();
+
         int leftDurationOfHours = (int) (durationOfHours - durationOfDays * HOURS_OF_DAY);
         int leftDaysFromNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
         int leftDaysToEnd = calculateDurationWithoutWeekend(endTime, durationOfDays, leftDurationOfHours);
         int leftHours = calculateDurationWithWorkHours(leftDurationOfHours);
 
+        Program program = student.getProgram();
+
         if (endTime.isAfter(nowTime)) {
-            student.getProgram().setStatusCourse(STATUS_IN_PROCESS);
+            student.getProgram().setStatusCourse(StatusCourse.IN_PROCESS);
             if (leftDaysFromNow == 0) {
                 program.setLeftTime(leftHours + " h. are left unit the end.");
             } else if (leftHours == 0 || leftHours == 8) {
@@ -49,9 +50,8 @@ public class EnrichingStudentImpl implements EnrichingStudent {
             } else {
                 program.setLeftTime(leftDaysFromNow + " d. " + leftHours + " h." + " are left unit the end.");
             }
-            return student;
         } else if (endTime.isBefore(nowTime)) {
-            program.setStatusCourse(STATUS_COMPLETED);
+            program.setStatusCourse(StatusCourse.COMPLETED);
             if (leftDaysToEnd == 0) {
                 program.setLeftTime(leftHours + " h. have passed since the end.");
             } else if (leftHours == 0 || leftHours == 8) {
@@ -60,14 +60,13 @@ public class EnrichingStudentImpl implements EnrichingStudent {
                 program.setLeftTime(leftDaysToEnd + " d. " + leftHours + " h." + " have passed since the end.");
             }
         } else {
-            program.setStatusCourse(STATUS_COMPLETED);
+            program.setStatusCourse(StatusCourse.COMPLETED);
             program.setLeftTime("You just finished the course.");
-            return student;
         }
         return student;
     }
 
-    private static int calculateDurationWithoutWeekend(Instant startDate, long durationOfDays, int leftDurationOfHours) {
+    private int calculateDurationWithoutWeekend(Instant startDate, long durationOfDays, int leftDurationOfHours) {
         int days = 0;
         LocalDateTime result = LocalDateTime.ofInstant(startDate, ZONE_OFFSET);
         int addedDays = 0;
@@ -85,7 +84,7 @@ public class EnrichingStudentImpl implements EnrichingStudent {
         return days;
     }
 
-    private static int calculateDurationWithWorkHours(long leftDurationOfHours) {
+    private int calculateDurationWithWorkHours(long leftDurationOfHours) {
         int leftTimeHours = (int) leftDurationOfHours - NOT_WORK_HOURS;
         if (leftTimeHours >= 0) {
             return leftTimeHours;

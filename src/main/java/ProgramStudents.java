@@ -1,8 +1,8 @@
 import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidOutputDataTypeException;
 import com.griddynamics.gridu.javabasics.studentscourses.facade.FacadeParsableStudents;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.input.RetortDataType;
-import com.griddynamics.gridu.javabasics.studentscourses.model.input.InputData;
+import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.InputData;
 
 import java.time.Instant;
 import java.util.List;
@@ -27,11 +27,11 @@ public class ProgramStudents {
         Instant instant = Instant.parse(inputData.getTime());
         String reportData = args[2];
         reportData = reportData.toUpperCase();
-        if (!(reportData.equals(RetortDataType.FULL.name()) || reportData.equals(RetortDataType.SHORT.name()))) {
+        if (!(reportData.equals(ReportDataType.FULL.name()) || reportData.equals(ReportDataType.SHORT.name()))) {
             throw new InvalidOutputDataTypeException(String.format("It's not correct %s reportData."
                     , reportData));
         }
-        RetortDataType retortDataType = RetortDataType.valueOf(reportData);
+        ReportDataType retortDataType = ReportDataType.valueOf(reportData);
         inputData.setRetortDataType(retortDataType);
         FacadeParsableStudents facadeParsableStudents = new FacadeParsableStudents();
 
@@ -46,6 +46,8 @@ public class ProgramStudents {
     }
 
     private static void printStudentsData(String nameList, List<String> listDataStudents) {
-        System.out.println(nameList + "\n" + listDataStudents + "\n" + SEPARATE_STRINGS + "\n");
+        System.out.println(nameList);
+        listDataStudents.forEach(System.out::println);
+        System.out.println(SEPARATE_STRINGS);
     }
 }
