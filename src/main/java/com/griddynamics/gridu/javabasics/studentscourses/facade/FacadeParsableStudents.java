@@ -1,10 +1,10 @@
 package com.griddynamics.gridu.javabasics.studentscourses.facade;
 
-import com.griddynamics.gridu.javabasics.studentscourses.*;
-import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
-import com.griddynamics.gridu.javabasics.studentscourses.model.SummaryStudentsInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.*;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
+import com.griddynamics.gridu.javabasics.studentscourses.model.SummaryStudentsInfo;
+import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.*;
+import com.griddynamics.gridu.javabasics.studentscourses.service.*;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,9 +17,9 @@ import java.util.List;
 
 public class FacadeParsableStudents {
 
-    private FinishTimeCalculator finishTimeCalculator = new FinishTimeCalculatorImpl();
-    private EnrichingStudent enrichingStudent = new EnrichingStudentImpl();
-    private JsonConverter jsonConverter = new JsonConverter();
+    private final FinishTimeCalculator finishTimeCalculator = new FinishTimeCalculatorImpl();
+    private final EnrichingStudent enrichingStudent = new EnrichingStudentImpl();
+    private final JsonConverter jsonConverter = new JsonConverter();
 
     /**
      * This method lists students based on their course status.

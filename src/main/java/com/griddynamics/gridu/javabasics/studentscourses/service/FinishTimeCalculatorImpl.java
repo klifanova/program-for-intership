@@ -1,4 +1,4 @@
-package com.griddynamics.gridu.javabasics.studentscourses;
+package com.griddynamics.gridu.javabasics.studentscourses.service;
 
 import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidDurationException;
 

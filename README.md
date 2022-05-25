@@ -10,12 +10,23 @@ the student completed the course.
 * Maven 4.0.0
 * Git
 
-## How to run
+##How to run
 
-Input data to the console:
+1) `cd../courses-for-students`
 
-`fileName date reportDataType`
+2) `mvn clean install` - command to build application
 
-An example of input data:
+3) `java -jar target/courses-for-students-1.0-SNAPSHOT.jar  <fileName> <date> <reportDataType>` - command to run application
+4) `mvn test` - command to test application
 
-`src/main/resources/students-data.json 2022-04-05T10:00:00.00Z full`
+Parameters, which we need to use:
+
+`fileName` - the file name
+
+`date` - the specific date for which report will be generated
+
+`reportDataType` - the form of report data (full/short)
+
+An example of report data:
+
+`java -jar target/courses-for-students-1.0-SNAPSHOT.jar  src/main/resources/students-data.json 2022-04-05T10:00:00.00Z full`

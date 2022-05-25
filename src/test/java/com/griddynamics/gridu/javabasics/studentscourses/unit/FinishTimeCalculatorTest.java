@@ -1,8 +1,8 @@
 package com.griddynamics.gridu.javabasics.studentscourses.unit;
 
-import com.griddynamics.gridu.javabasics.studentscourses.FinishTimeCalculator;
-import com.griddynamics.gridu.javabasics.studentscourses.FinishTimeCalculatorImpl;
 import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidDurationException;
+import com.griddynamics.gridu.javabasics.studentscourses.service.FinishTimeCalculator;
+import com.griddynamics.gridu.javabasics.studentscourses.service.FinishTimeCalculatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

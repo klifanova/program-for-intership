@@ -1,11 +1,11 @@
 package com.griddynamics.gridu.javabasics.studentscourses.unit;
 
-import com.griddynamics.gridu.javabasics.studentscourses.EnrichingStudent;
-import com.griddynamics.gridu.javabasics.studentscourses.EnrichingStudentImpl;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCourse;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
+import com.griddynamics.gridu.javabasics.studentscourses.service.EnrichingStudent;
+import com.griddynamics.gridu.javabasics.studentscourses.service.EnrichingStudentImpl;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

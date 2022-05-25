@@ -1,10 +1,10 @@
 package com.griddynamics.gridu.javabasics.studentscourses.unit;
 
-import com.griddynamics.gridu.javabasics.studentscourses.JsonConverter;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Training;
+import com.griddynamics.gridu.javabasics.studentscourses.service.JsonConverter;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JsonConverterTest {
 
-    private JsonConverter jsonConverter = new JsonConverter();
+    private final JsonConverter jsonConverter = new JsonConverter();
 
     @Test
     public void checkValidTrainingFormatIfWeConvertFromValidJsonFile() {
