@@ -1,0 +1,34 @@
+{
+  "studentList": [
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "program": {
+      }
+    },
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "program": {
+      }
+    },
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "program": {
+      }
+    },
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "program": {
+      }
+    },
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "program": {
+      }
+    }
+  ]
+}

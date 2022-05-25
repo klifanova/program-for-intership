@@ -54,39 +54,6 @@
           "duration": "PT9H"
         }
       }
-    },
-    {
-      "name": "Ivan",
-      "surname": "Ivanov",
-      "program": {
-        "curriculum": {
-          "name": "Java Developer",
-          "startTimeCourse": "2022-04-01T10:00:00.00Z",
-          "duration": "PT9H"
-        }
-      }
-    },
-    {
-      "name": "Ivan",
-      "surname": "Ivanov",
-      "program": {
-        "curriculum": {
-          "name": "Java Developer",
-          "startTimeCourse": "2022-04-01T10:00:00.00Z",
-          "duration": "PT9H"
-        }
-      }
-    },
-    {
-      "name": "Ivan",
-      "surname": "Ivanov",
-      "program": {
-        "curriculum": {
-          "name": "Java Developer",
-          "startTimeCourse": "2022-04-01T10:00:00.00Z",
-          "duration": "PT9H"
-        }
-      }
     }
   ]
 }

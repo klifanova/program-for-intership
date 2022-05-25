@@ -40,29 +40,34 @@ public class FacadeParsableStudents {
 
         for (Student student : studentDataFromFile) {
             Curriculum curriculum = student.getProgram().getCurriculum();
-            Instant startTime = curriculum.getStartTimeCourse();
-            Duration duration = curriculum.getDuration();
 
-            Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
-            student.getProgram().getCurriculum().setEndTimeCourse(endDate);
-            student = enrichingStudent.enrichStudent(nowDate, endDate, student);
-
-
-            StatusCourse status = student.getProgram().getStatusCourse();
-
-            if (status == StatusCourse.IN_PROCESS) {
-                inProgressCourseStudentsList.add(student);
-            } else if (status == StatusCourse.COMPLETED) {
-                completeCourseStudentsList.add(student);
-            } else {
+            if (curriculum == null) {
+                student = enrichingStudent.enrichStudent(nowDate, null, student);
                 noCourseStudentsList.add(student);
+            } else {
+                Instant startTime = curriculum.getStartTimeCourse();
+                Duration duration = curriculum.getDuration();
+
+                Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
+                student.getProgram().getCurriculum().setEndTimeCourse(endDate);
+                student = enrichingStudent.enrichStudent(nowDate, endDate, student);
+
+                StatusCourse status = student.getProgram().getStatusCourse();
+
+                if (status == StatusCourse.IN_PROCESS) {
+                    inProgressCourseStudentsList.add(student);
+                } else if (status == StatusCourse.COMPLETED) {
+                    completeCourseStudentsList.add(student);
+                } else {
+                    noCourseStudentsList.add(student);
+                }
             }
         }
 
         SummaryStudentsInfo summaryStudentsInfo = new SummaryStudentsInfo(inProgressCourseStudentsList,
                 completeCourseStudentsList, noCourseStudentsList);
 
-        return getCoursesSummaryInfo(reportDataType, summaryStudentsInfo);
+        return getCoursesSummaryInfo(reportDataType, summaryStudentsInfo, nowDate);
     }
 
     private List<String> getShortDataStudents(List<Student> students) {
@@ -91,6 +96,16 @@ public class FacadeParsableStudents {
         return studentsList;
     }
 
+    private List<String> getInfoForStudentsNoHaveCourse(List<Student> students, Instant nowTime) {
+        List<String> studentsList = new ArrayList<>();
+
+        for (Student student : students) {
+            studentsList.add(student.getFullName() + ". " + student.getProgram().getStatusCourse().getStatus() + "in "
+                    + nowTime);
+        }
+        return studentsList;
+    }
+
     /**
      * This method parse students data in specific report form(short/full) in CoursesSummaryInfo.
      *
@@ -100,8 +115,8 @@ public class FacadeParsableStudents {
      */
 
     private CoursesSummaryInfo getCoursesSummaryInfo(ReportDataType reportDataType,
-                                                     SummaryStudentsInfo summaryStudentsInfo) {
-        List<String> listDataStudentsInProcessCourse = new ArrayList<>(); //???
+                                                     SummaryStudentsInfo summaryStudentsInfo, Instant nowTime) {
+        List<String> listDataStudentsInProcessCourse = new ArrayList<>();
         List<String> listDataStudentsCompleteCourse = new ArrayList<>();
         List<String> listDataStudentsNotHaveCourse = new ArrayList<>();
 
@@ -112,12 +127,12 @@ public class FacadeParsableStudents {
         if (reportDataType == ReportDataType.SHORT) {
             listDataStudentsInProcessCourse = getShortDataStudents(inProgressCourseStudentsList);
             listDataStudentsCompleteCourse = getShortDataStudents(completeCourseStudentsList);
-            listDataStudentsNotHaveCourse = getShortDataStudents(noCourseStudentsList);
+            listDataStudentsNotHaveCourse = getInfoForStudentsNoHaveCourse(noCourseStudentsList, nowTime);
         }
         if (reportDataType == ReportDataType.FULL) {
             listDataStudentsInProcessCourse = getFullDataStudents(inProgressCourseStudentsList);
             listDataStudentsCompleteCourse = getFullDataStudents(completeCourseStudentsList);
-            listDataStudentsNotHaveCourse = getFullDataStudents(noCourseStudentsList);
+            listDataStudentsNotHaveCourse = getInfoForStudentsNoHaveCourse(noCourseStudentsList, nowTime);
         }
         return new CoursesSummaryInfo(listDataStudentsInProcessCourse,
                 listDataStudentsCompleteCourse, listDataStudentsNotHaveCourse);

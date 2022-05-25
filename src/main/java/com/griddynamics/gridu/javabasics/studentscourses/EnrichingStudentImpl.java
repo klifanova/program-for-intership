@@ -1,5 +1,6 @@
 package com.griddynamics.gridu.javabasics.studentscourses;
 
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCourse;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
@@ -9,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 /**
  * Updating the student's course status. Updating the left time student without weekend, not working hours.
@@ -31,17 +33,28 @@ public class EnrichingStudentImpl implements EnrichingStudent {
      */
 
     public Student enrichStudent(Instant nowTime, Instant endTime, Student student) {
-        long durationOfDays = Math.abs(nowTime.until(endTime, ChronoUnit.DAYS));
-        long durationOfHours = Math.abs(nowTime.until(endTime, ChronoUnit.HOURS));
-
-        int leftDurationOfHours = (int) (durationOfHours - durationOfDays * HOURS_OF_DAY);
-        int leftDaysFromNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
-        int leftDaysToEnd = calculateDurationWithoutWeekend(endTime, durationOfDays, leftDurationOfHours);
-        int leftHours = calculateDurationWithWorkHours(leftDurationOfHours);
+        int leftDurationOfHours;
+        int leftDaysFromNow = 0;
+        int leftDaysToEnd = 0;
+        int leftHours = 0;
 
         Program program = student.getProgram();
 
-        if (endTime.isAfter(nowTime)) {
+        if (endTime == null || program.getCurriculum() == null) {
+            program.setStatusCourse(StatusCourse.NO_COURSE);
+        } else {
+            long durationOfDays = Math.abs(nowTime.until(endTime, ChronoUnit.DAYS));
+            long durationOfHours = Math.abs(nowTime.until(endTime, ChronoUnit.HOURS));
+
+            leftDurationOfHours = (int) (durationOfHours - durationOfDays * HOURS_OF_DAY);
+            leftDaysFromNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
+            leftDaysToEnd = calculateDurationWithoutWeekend(endTime, durationOfDays, leftDurationOfHours);
+            leftHours = calculateDurationWithWorkHours(leftDurationOfHours);
+        }
+
+        if (program.getCurriculum() == null) {
+            program.setStatusCourse(StatusCourse.NO_COURSE);
+        } else if (endTime.isAfter(nowTime)) {
             student.getProgram().setStatusCourse(StatusCourse.IN_PROCESS);
             if (leftDaysFromNow == 0) {
                 program.setLeftTime(leftHours + " h. are left unit the end.");

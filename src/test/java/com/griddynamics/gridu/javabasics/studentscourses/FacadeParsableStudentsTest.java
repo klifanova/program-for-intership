@@ -37,13 +37,13 @@ public class FacadeParsableStudentsTest {
 
     @Test
     public void checkFullParsableStudentIfWeHaveValidDataAndDate() {
-        String nameFile = "student-data-one.json";
+        String nameFile = "student-data.json";
         Instant time = Instant.parse("2022-04-05T10:00:00.00Z");
         Instant end = Instant.parse("2022-04-05T16:00:00.00Z");
         ReportDataType reportDataType = ReportDataType.FULL;
         Student student = getStudent(end);
         Training training = getTraining(student, 5);
-        String dataStudent = "\nstudent name: Ivan Ivanov; working time: from 10:00 to 18:00; program name: Java;" +
+        String dataStudent = "Student name: Ivan Ivanov; working time: from 10:00 to 18:00; program name: Java;" +
                 " program duration: PT9Hh.; start date: 2022-04-01T10:00:00Z; end date: 2022-04-05T16:00:00Z;" +
                 " left time: 5 d. have passed since the end.";
         CoursesSummaryInfo expectedSummary = new CoursesSummaryInfo(getCoursesSummaryInfo(0, ""),
@@ -61,13 +61,13 @@ public class FacadeParsableStudentsTest {
 
     @Test
     public void checkShortParsableStudentIfWeHaveValidDataAndDate() {
-        String nameFile = "student-data-one.json";
+        String nameFile = "student-data.json";
         Instant time = Instant.parse("2022-04-05T10:00:00.00Z");
         Instant end = Instant.parse("2022-04-05T16:00:00.00Z");
         ReportDataType reportDataType = ReportDataType.SHORT;
         Student student = getStudent(end);
         Training training = getTraining(student, 5);
-        String dataStudent = "\nIvan Ivanov ( Java ) - Training completed. 5 d. have passed since the end.";
+        String dataStudent = "Ivan Ivanov ( Java ) - Training completed. 5 d. have passed since the end.";
         CoursesSummaryInfo expectedSummary = new CoursesSummaryInfo(getCoursesSummaryInfo(0, ""),
                 getCoursesSummaryInfo(5, dataStudent), getCoursesSummaryInfo(0, ""));
 
@@ -81,7 +81,7 @@ public class FacadeParsableStudentsTest {
         assertEquals(expectedSummary, actualSummary);
     }
 
-    private static Training getTraining(Student student, int countElement) {
+    private Training getTraining(Student student, int countElement) {
         List<Student> studentList = new ArrayList<>();
         for (int i = 0; i < countElement; i++) {
             studentList.add(student);
@@ -89,7 +89,7 @@ public class FacadeParsableStudentsTest {
         return new Training(studentList);
     }
 
-    private static List<String> getCoursesSummaryInfo(int countElement, String dataStudent) {
+    private List<String> getCoursesSummaryInfo(int countElement, String dataStudent) {
         List<String> summary = new ArrayList<>();
         for (int i = 0; i < countElement; i++) {
             summary.add(dataStudent);
@@ -97,7 +97,7 @@ public class FacadeParsableStudentsTest {
         return summary;
     }
 
-    private static Student getStudent(Instant end) {
+    private Student getStudent(Instant end) {
         Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
         Duration duration = Duration.of(9, ChronoUnit.HOURS);
         StatusCourse statusCourse = StatusCourse.COMPLETED;

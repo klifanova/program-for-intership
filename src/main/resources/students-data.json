@@ -15,11 +15,6 @@
       "name": "Tanya",
       "surname": "Petrova",
       "program": {
-        "curriculum": {
-          "name": "J2EE Developer",
-          "startTimeCourse": "2022-04-06T18:00:00.00Z",
-          "duration": "PT8H"
-        }
       }
     },
     {

@@ -15,22 +15,47 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JsonConverterTest {
 
     private JsonConverter jsonConverter = new JsonConverter();
 
     @Test
-    public void checkStudentIfWeConvertFromValidJsonFile() {
-        String STUDENT_DATA_FILE = "src/test/resources/students-data.json";
-        Training expectedTraining = jsonConverter.converterJson(STUDENT_DATA_FILE, Training.class);
-        Training actualTraining = getTraining();
+    public void checkValidTrainingFormatIfWeConvertFromValidJsonFile() {
+        String studentsDataFile = "src/test/resources/students-data.json";
+        Curriculum curriculum = getSpecificCurriculum();
+        Program program = getSpecificProgram(curriculum);
+        Training expectedTraining = getSpecificTraining(program);
+
+        Training actualTraining = jsonConverter.converterJson(studentsDataFile, Training.class);
 
         assertNotNull(expectedTraining);
         assertEquals(expectedTraining, actualTraining);
     }
 
-    private static List<Student> addElementsInList(Student student, int countElement) {
+    @Test
+    public void checkInvalidFormatIfWeConvertFromValidJsonFile() {
+        String studentsDataFile = "src/test/resources/students-data.json";
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            jsonConverter.converterJson(studentsDataFile, Curriculum.class);
+        });
+    }
+
+    @Test
+    public void checkStudentNotHaveCourseIfWeConvertFromValidJsonFile() {
+        String studentsDataFile = "src/test/resources/students-not-have-course.json";
+        Program program = new Program(null, null, null);
+        Training expectedTraining = getSpecificTraining(program);
+
+        Training actualTraining = jsonConverter.converterJson(studentsDataFile, Training.class);
+
+        assertNotNull(expectedTraining);
+        assertEquals(expectedTraining, actualTraining);
+    }
+
+    private List<Student> addElementsInList(Student student, int countElement) {
         List<Student> studentList = new ArrayList<>();
         for (int i = 0; i < countElement; i++) {
             studentList.add(student);
@@ -38,14 +63,20 @@ public class JsonConverterTest {
         return studentList;
     }
 
-    private static Training getTraining() {
-        Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
-        Duration duration = Duration.of(9, ChronoUnit.HOURS);
-        Curriculum curriculum = new Curriculum("Java Developer", startTimeFr, null, duration);
-        Program program = new Program(curriculum, null, null);
+    private Program getSpecificProgram(Curriculum curriculum) {
+        return new Program(curriculum, null, null);
+    }
+
+    private Training getSpecificTraining(Program program) {
         Student actualStudent = new Student("Ivan", "Ivanov", program);
-        int COUNT_ELEMENT = 8;
+        int COUNT_ELEMENT = 5;
         List<Student> actualStudentList = addElementsInList(actualStudent, COUNT_ELEMENT);
         return new Training(actualStudentList);
+    }
+
+    private Curriculum getSpecificCurriculum() {
+        Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
+        Duration duration = Duration.of(9, ChronoUnit.HOURS);
+        return new Curriculum("Java Developer", startTimeFr, null, duration);
     }
 }
