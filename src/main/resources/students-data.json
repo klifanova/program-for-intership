@@ -1,0 +1,76 @@
+{
+  "studentList": [
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "program": {
+        "curriculum": {
+          "name": "Java Developer",
+          "startTimeCourse": "2022-04-05T11:00:00.00Z",
+          "duration": "PT9H"
+        }
+      }
+    },
+    {
+      "name": "Tanya",
+      "surname": "Petrova",
+      "program": {
+      }
+    },
+    {
+      "name": "Alexandr",
+      "surname": "Ploskih",
+      "program": {
+        "curriculum": {
+          "name": "Javascript Developer",
+          "startTimeCourse": "2022-04-05T18:00:00.00Z",
+          "duration": "PT9H"
+        }
+      }
+    },
+    {
+      "name": "Sonya",
+      "surname": "Ivanova",
+      "program": {
+        "curriculum": {
+          "name": "Python Developer",
+          "startTimeCourse": "2022-04-01T18:00:00.00Z",
+          "duration": "PT9H"
+        }
+      }
+    },
+    {
+      "name": "Sonya",
+      "surname": "Lebedeva",
+      "program": {
+        "curriculum": {
+          "name": "J2EE Developer",
+          "startTimeCourse": "2022-04-01T10:00:00.00Z",
+          "duration": "PT10H"
+        }
+      }
+    },
+    {
+      "name": "Vadim",
+      "surname": "Belov",
+      "program": {
+        "curriculum": {
+          "name": "Python Developer",
+          "startTimeCourse": "2022-04-05T10:00:00.00Z",
+          "duration": "PT1H"
+        }
+      }
+    },
+    {
+      "name": "Olya",
+      "surname": "Belova",
+      "program": {
+        "curriculum": {
+          "name": "Java Developer",
+          "startTimeCourse": "2022-04-01T10:00:00.00Z",
+          "duration": "PT9H"
+        }
+      }
+    }
+  ]
+}
