@@ -30,4 +30,4 @@ An example of report data:
 
 `java -jar target/courses-for-students-1.0-SNAPSHOT.jar  src/main/resources/students-data.json 2022-04-05T10:00:00.00Z full`
 
-4) `mvn test`
+4) To run test :`mvn test`
