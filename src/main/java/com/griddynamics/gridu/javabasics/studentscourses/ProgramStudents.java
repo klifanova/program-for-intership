@@ -1,8 +1,10 @@
+package com.griddynamics.gridu.javabasics.studentscourses;
+
 import com.griddynamics.gridu.javabasics.studentscourses.exception.InvalidOutputDataTypeException;
 import com.griddynamics.gridu.javabasics.studentscourses.facade.FacadeParsableStudents;
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
-import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.InputData;
+import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
 
 import java.time.Instant;
 import java.util.List;

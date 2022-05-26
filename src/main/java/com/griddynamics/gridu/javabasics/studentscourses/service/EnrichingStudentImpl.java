@@ -1,6 +1,5 @@
-package com.griddynamics.gridu.javabasics.studentscourses;
+package com.griddynamics.gridu.javabasics.studentscourses.service;
 
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCourse;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
@@ -10,7 +9,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 
 /**
  * Updating the student's course status. Updating the left time student without weekend, not working hours.

@@ -1,4 +1,4 @@
-package com.griddynamics.gridu.javabasics.studentscourses;
+package com.griddynamics.gridu.javabasics.studentscourses.service;
 
 import java.time.Duration;
 import java.time.Instant;

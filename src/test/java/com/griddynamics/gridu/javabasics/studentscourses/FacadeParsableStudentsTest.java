@@ -4,6 +4,9 @@ import com.griddynamics.gridu.javabasics.studentscourses.facade.FacadeParsableSt
 import com.griddynamics.gridu.javabasics.studentscourses.model.CoursesSummaryInfo;
 import com.griddynamics.gridu.javabasics.studentscourses.model.inputdata.ReportDataType;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.*;
+import com.griddynamics.gridu.javabasics.studentscourses.service.EnrichingStudent;
+import com.griddynamics.gridu.javabasics.studentscourses.service.FinishTimeCalculator;
+import com.griddynamics.gridu.javabasics.studentscourses.service.JsonConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
