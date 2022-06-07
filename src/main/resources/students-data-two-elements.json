@@ -1,0 +1,42 @@
+{
+  "studentList": [
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "curriculum": {
+        "name": "Java Developer",
+        "courseList": [
+          {
+            "name": "Java.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          },
+          {
+            "name": "JDBC.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Alexandr",
+      "surname": "Ploskih",
+      "curriculum": {
+        "name": "JavaScript Developer",
+        "courseList": [
+          {
+            "name": "JavaScript.",
+            "startTimeCourse": "2022-04-05T10:00:00.00Z",
+            "duration": "PT1H"
+          },
+          {
+            "name": "Git.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT1H"
+          }
+        ]
+      }
+    }
+  ]
+}

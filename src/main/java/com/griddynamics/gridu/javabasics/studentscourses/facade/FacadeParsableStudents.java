@@ -8,6 +8,7 @@ import com.griddynamics.gridu.javabasics.studentscourses.service.*;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,9 @@ import java.util.List;
 
 public class FacadeParsableStudents {
 
-    private final FinishTimeCalculator finishTimeCalculator = new FinishTimeCalculatorImpl();
-    private final EnrichingStudent enrichingStudent = new EnrichingStudentImpl();
-    private final JsonConverter jsonConverter = new JsonConverter();
+    private FinishTimeCalculator finishTimeCalculator = new FinishTimeCalculatorImpl();
+    private EnrichingStudent enrichingStudent = new EnrichingStudentImpl();
+    private JsonConverter jsonConverter = new JsonConverter();
 
     /**
      * This method lists students based on their course status.
@@ -39,24 +40,36 @@ public class FacadeParsableStudents {
         List<Student> studentDataFromFile = training.getStudentList();
 
         for (Student student : studentDataFromFile) {
-            Curriculum curriculum = student.getProgram().getCurriculum();
+            Curriculum curriculum = student.getCurriculum();
+            List<Course> courseList = curriculum.getCourseList();
+            int sumDurations = 0;
 
-            if (curriculum == null) {
+            if (courseList.isEmpty() || courseList == null) {
                 student = enrichingStudent.enrichStudent(nowDate, null, student);
                 noCourseStudentsList.add(student);
             } else {
-                Instant startTime = curriculum.getStartTimeCourse();
-                Duration duration = curriculum.getDuration();
 
-                Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
-                student.getProgram().getCurriculum().setEndTimeCourse(endDate);
+                for (int i = 0; i < courseList.size(); i++) {
+                    Course course = courseList.get(i);
+
+                    Instant startTime = course.getStartTimeCourse();
+                    Duration duration = course.getDuration();
+
+                    Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, duration);
+                    course.setEndTimeCourse(endDate);
+                    long durationHours = duration.toHours();
+
+                    sumDurations += durationHours;
+                }
+
+                Duration durations = Duration.of(sumDurations, ChronoUnit.HOURS);
+                Instant startTime = courseList.get(0).getStartTimeCourse();
+                Instant endDate = finishTimeCalculator.calculateFinishTime(startTime, durations);
                 student = enrichingStudent.enrichStudent(nowDate, endDate, student);
 
-                StatusCourse status = student.getProgram().getStatusCourse();
-
-                if (status == StatusCourse.IN_PROCESS) {
+                if (curriculum.getStatus() == StatusCurriculum.IN_PROCESS) {
                     inProgressCourseStudentsList.add(student);
-                } else if (status == StatusCourse.COMPLETED) {
+                } else if (curriculum.getStatus() == StatusCurriculum.COMPLETED) {
                     completeCourseStudentsList.add(student);
                 } else {
                     noCourseStudentsList.add(student);
@@ -73,10 +86,11 @@ public class FacadeParsableStudents {
     private List<String> getShortDataStudents(List<Student> students) {
         List<String> studentsList = new ArrayList<>();
 
-        for (Student item : students) {
-            Program program = item.getProgram();
-            studentsList.add(item.getFullName() + " ( " + program.getCurriculum().getName() + " ) - "
-                    + program.getStatusCourse().getStatus() + " " + program.getLeftTime());
+        for (Student student : students) {
+            Curriculum curriculum = student.getCurriculum();
+
+            studentsList.add(student.getFullName() + " ( " + curriculum.getName() + " ) - "
+                    + curriculum.getStatus().getStatus() + " " + curriculum.getLeftTime());
         }
         return studentsList;
     }
@@ -84,14 +98,20 @@ public class FacadeParsableStudents {
     private List<String> getFullDataStudents(List<Student> students) {
         List<String> studentsList = new ArrayList<>();
 
-        for (Student item : students) {
-            Program program = item.getProgram();
-            Curriculum curriculum = program.getCurriculum();
-            studentsList.add("Student name: " + item.getFullName() + "; " + "working time: from 10:00 to 18:00; "
-                    + "program name: " + curriculum.getName() + "; program duration: " +
-                    curriculum.getDuration().toString() + "h.; start date: "
-                    + curriculum.getStartTimeCourse().toString() + "; end date: "
-                    + curriculum.getEndTimeCourse().toString() + "; left time: " + program.getLeftTime());
+        for (Student student : students) {
+            StringBuilder sb = new StringBuilder();
+            Curriculum curriculum = student.getCurriculum();
+            List<Course> courseList = curriculum.getCourseList();
+            String curriculumInfo = getListCurriculum(courseList);
+            //change this add
+            sb.append("STUDENT: ")
+                    .append(student.getFullName())
+                    .append(". Working time: from 10:00 to 18:00. CURRICULUM: ")
+                    .append(curriculum.getName())
+                    .append(";")
+                    .append(curriculumInfo);
+
+            studentsList.add(sb.toString());
         }
         return studentsList;
     }
@@ -100,8 +120,8 @@ public class FacadeParsableStudents {
         List<String> studentsList = new ArrayList<>();
 
         for (Student student : students) {
-            studentsList.add(student.getFullName() + ". " + student.getProgram().getStatusCourse().getStatus() + "in "
-                    + nowTime);
+            studentsList.add(student.getFullName() + ". " +
+                    student.getCurriculum().getStatus().getStatus() + "in " + nowTime);
         }
         return studentsList;
     }
@@ -136,5 +156,23 @@ public class FacadeParsableStudents {
         }
         return new CoursesSummaryInfo(listDataStudentsInProcessCourse,
                 listDataStudentsCompleteCourse, listDataStudentsNotHaveCourse);
+    }
+
+    private String getListCurriculum(List<Course> courseList) {
+        StringBuilder sb = new StringBuilder();
+
+        for (Course course : courseList) {
+            sb.append(" COURSE: ")
+                    .append(course.getName())
+                    .append(" Program duration: ")
+                    .append(course.getDuration().toHours())
+                    .append("h. START_DATE: ")
+                    .append(course.getStartTimeCourse().toString())
+                    .append("; END_DATE: ")
+                    .append(course.getEndTimeCourse().toString())
+                    .append(".");
+        }
+
+        return sb.toString();
     }
 }

@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
+import java.time.Instant;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Program {
-    Curriculum curriculum;
-    StatusCourse statusCourse;
-    String leftTime;
+public class Course {
+
+    String name;
+    Instant startTimeCourse;
+    Instant endTimeCourse;
+    Duration duration;
 }

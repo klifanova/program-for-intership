@@ -1,0 +1,23 @@
+{
+  "studentList": [
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "curriculum": {
+        "name": "Java Developer",
+        "courseList": [
+          {
+            "name": "Java.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          },
+          {
+            "name": "JDBC.",
+            "startTimeCourse": "2022-04-03T10:00:00.00Z",
+            "duration": "PT9H"
+          }
+        ]
+      }
+    }
+  ]
+}

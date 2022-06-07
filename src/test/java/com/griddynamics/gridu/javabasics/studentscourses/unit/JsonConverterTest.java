@@ -1,7 +1,7 @@
 package com.griddynamics.gridu.javabasics.studentscourses.unit;
 
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Course;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Training;
 import com.griddynamics.gridu.javabasics.studentscourses.service.JsonConverter;
@@ -13,9 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonConverterTest {
 
@@ -24,9 +22,8 @@ public class JsonConverterTest {
     @Test
     public void checkValidTrainingFormatIfWeConvertFromValidJsonFile() {
         String studentsDataFile = "src/test/resources/students-data.json";
-        Curriculum curriculum = getSpecificCurriculum();
-        Program program = getSpecificProgram(curriculum);
-        Training expectedTraining = getSpecificTraining(program);
+        Curriculum curriculum = getSpecificCurriculum(2);
+        Training expectedTraining = getSpecificTraining(curriculum);
 
         Training actualTraining = jsonConverter.converterJson(studentsDataFile, Training.class);
 
@@ -46,8 +43,8 @@ public class JsonConverterTest {
     @Test
     public void checkStudentNotHaveCourseIfWeConvertFromValidJsonFile() {
         String studentsDataFile = "src/test/resources/students-not-have-course.json";
-        Program program = new Program(null, null, null);
-        Training expectedTraining = getSpecificTraining(program);
+        Curriculum curriculum = new Curriculum(null, null, null, null);
+        Training expectedTraining = getSpecificTraining(curriculum);
 
         Training actualTraining = jsonConverter.converterJson(studentsDataFile, Training.class);
 
@@ -63,20 +60,24 @@ public class JsonConverterTest {
         return studentList;
     }
 
-    private Program getSpecificProgram(Curriculum curriculum) {
-        return new Program(curriculum, null, null);
-    }
-
-    private Training getSpecificTraining(Program program) {
-        Student actualStudent = new Student("Ivan", "Ivanov", program);
+    private Training getSpecificTraining(Curriculum curriculum) {
+        Student actualStudent = new Student("Ivan", "Ivanov", curriculum);
         int COUNT_ELEMENT = 5;
         List<Student> actualStudentList = addElementsInList(actualStudent, COUNT_ELEMENT);
         return new Training(actualStudentList);
     }
 
-    private Curriculum getSpecificCurriculum() {
+    private Curriculum getSpecificCurriculum(int numberOfCourse) {
         Instant startTimeFr = Instant.parse("2022-04-01T10:00:00.00Z");
         Duration duration = Duration.of(9, ChronoUnit.HOURS);
-        return new Curriculum("Java Developer", startTimeFr, null, duration);
+        List<Course> courseList = new ArrayList<>();
+        Course course = new Course("Java.", startTimeFr, null, duration);
+        Curriculum curriculum = new Curriculum("Java Developer", courseList, null, null);
+
+        for (int i = 0; i < numberOfCourse; i++) {
+            courseList.add(course);
+        }
+
+        return curriculum;
     }
 }

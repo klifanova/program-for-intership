@@ -11,7 +11,7 @@ public class Student {
 
     String name;
     String surname;
-    Program program;
+    Curriculum curriculum;
 
     public String getFullName() {
         return name + " " + surname;

@@ -3,73 +3,105 @@
     {
       "name": "Ivan",
       "surname": "Ivanov",
-      "program": {
-        "curriculum": {
-          "name": "Java Developer",
-          "startTimeCourse": "2022-04-05T11:00:00.00Z",
-          "duration": "PT9H"
-        }
-      }
-    },
-    {
-      "name": "Tanya",
-      "surname": "Petrova",
-      "program": {
+      "curriculum": {
+        "name": "Java Developer",
+        "courseList": [
+          {
+            "name": "Java.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          },
+          {
+            "name": "JDBC.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          }
+        ]
       }
     },
     {
       "name": "Alexandr",
       "surname": "Ploskih",
-      "program": {
-        "curriculum": {
-          "name": "Javascript Developer",
-          "startTimeCourse": "2022-04-05T18:00:00.00Z",
-          "duration": "PT9H"
-        }
+      "curriculum": {
+        "name": "JavaScript Developer",
+        "courseList": [
+        ]
       }
     },
     {
       "name": "Sonya",
       "surname": "Ivanova",
-      "program": {
-        "curriculum": {
-          "name": "Python Developer",
-          "startTimeCourse": "2022-04-01T18:00:00.00Z",
-          "duration": "PT9H"
-        }
+      "curriculum": {
+        "name": "Python Developer",
+        "courseList": [
+          {
+            "name": "Python.",
+            "startTimeCourse": "2022-04-30T10:00:00.00Z",
+            "duration": "PT5H"
+          },
+          {
+            "name": "Testing in Python.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          }
+        ]
       }
     },
     {
       "name": "Sonya",
       "surname": "Lebedeva",
-      "program": {
-        "curriculum": {
-          "name": "J2EE Developer",
-          "startTimeCourse": "2022-04-01T10:00:00.00Z",
-          "duration": "PT10H"
-        }
+      "curriculum": {
+        "name": "J2EE Developer",
+        "courseList": [
+          {
+            "name": "Python.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT8H"
+          },
+          {
+            "name": "Testing in Python.",
+            "startTimeCourse": "2022-04-04T10:00:00.00Z",
+            "duration": "PT1H"
+          }
+        ]
       }
     },
     {
       "name": "Vadim",
       "surname": "Belov",
-      "program": {
-        "curriculum": {
-          "name": "Python Developer",
-          "startTimeCourse": "2022-04-05T10:00:00.00Z",
-          "duration": "PT1H"
-        }
+      "curriculum": {
+        "name": "J2EE Developer",
+        "courseList": [
+          {
+            "name": "Python.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT2H"
+          },
+          {
+            "name": "Testing in Python.",
+            "startTimeCourse": "2022-04-01T12:00:00.00Z",
+            "duration": "PT3H"
+          }
+        ]
       }
     },
     {
       "name": "Olya",
       "surname": "Belova",
-      "program": {
-        "curriculum": {
-          "name": "Java Developer",
-          "startTimeCourse": "2022-04-01T10:00:00.00Z",
-          "duration": "PT9H"
-        }
+      "curriculum": {
+        "name": "J2EE Developer",
+        "courseList": [
+          {
+            "name": "Python.",
+            "startTimeCourse": "2022-04-01T10:00:00.00Z",
+            "duration": "PT9H"
+          },
+          {
+            "name": "Testing in Python.",
+            "startTimeCourse": "2022-04-03T10:00:00.00Z",
+            "duration": "PT9H"
+          }
+        ]
       }
     }
   ]
