@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +12,7 @@ import java.time.Instant;
 public class Curriculum {
 
     String name;
-    Instant startTimeCourse;
-    Instant endTimeCourse;
-    Duration duration;
+    List<Course> courseList;
+    StatusCurriculum status;
+    String leftTime;
 }

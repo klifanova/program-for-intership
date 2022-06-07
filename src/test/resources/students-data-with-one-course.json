@@ -10,7 +10,16 @@
             "name": "Java.",
             "startTimeCourse": "2022-04-01T10:00:00.00Z",
             "duration": "PT9H"
-          },
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ivan",
+      "surname": "Ivanov",
+      "curriculum": {
+        "name": "Java Developer",
+        "courseList": [
           {
             "name": "Java.",
             "startTimeCourse": "2022-04-01T10:00:00.00Z",
@@ -29,11 +38,6 @@
             "name": "Java.",
             "startTimeCourse": "2022-04-01T10:00:00.00Z",
             "duration": "PT9H"
-          },
-          {
-            "name": "Java.",
-            "startTimeCourse": "2022-04-01T10:00:00.00Z",
-            "duration": "PT9H"
           }
         ]
       }
@@ -48,11 +52,6 @@
             "name": "Java.",
             "startTimeCourse": "2022-04-01T10:00:00.00Z",
             "duration": "PT9H"
-          },
-          {
-            "name": "Java.",
-            "startTimeCourse": "2022-04-01T10:00:00.00Z",
-            "duration": "PT9H"
           }
         ]
       }
@@ -63,30 +62,6 @@
       "curriculum": {
         "name": "Java Developer",
         "courseList": [
-          {
-            "name": "Java.",
-            "startTimeCourse": "2022-04-01T10:00:00.00Z",
-            "duration": "PT9H"
-          },
-          {
-            "name": "Java.",
-            "startTimeCourse": "2022-04-01T10:00:00.00Z",
-            "duration": "PT9H"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Ivan",
-      "surname": "Ivanov",
-      "curriculum": {
-        "name": "Java Developer",
-        "courseList": [
-          {
-            "name": "Java.",
-            "startTimeCourse": "2022-04-01T10:00:00.00Z",
-            "duration": "PT9H"
-          },
           {
             "name": "Java.",
             "startTimeCourse": "2022-04-01T10:00:00.00Z",

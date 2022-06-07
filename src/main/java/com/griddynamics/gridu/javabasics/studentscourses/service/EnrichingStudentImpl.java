@@ -1,7 +1,8 @@
 package com.griddynamics.gridu.javabasics.studentscourses.service;
 
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.Program;
-import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCourse;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Course;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.Curriculum;
+import com.griddynamics.gridu.javabasics.studentscourses.model.student.StatusCurriculum;
 import com.griddynamics.gridu.javabasics.studentscourses.model.student.Student;
 
 import java.time.DayOfWeek;
@@ -9,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 /**
  * Updating the student's course status. Updating the left time student without weekend, not working hours.
@@ -24,55 +26,57 @@ public class EnrichingStudentImpl implements EnrichingStudent {
     /**
      * This method enriches data Student: updates leftTime and statusCourse only in working hours and days.
      *
-     * @param nowTime - the specific date for which report will be generated
-     * @param endTime - the finish date for course
-     * @param student - the data of student
+     * @param nowTime             - the specific date for which report will be generated
+     * @param endTimeOfCurriculum - the finish date of course
+     * @param student             - the data of student
      * @return Student - to enrich the data of student
      */
 
-    public Student enrichStudent(Instant nowTime, Instant endTime, Student student) {
+    public Student enrichStudent(Instant nowTime, Instant endTimeOfCurriculum, Student student) {
         int leftDurationOfHours;
         int leftDaysFromNow = 0;
         int leftDaysToEnd = 0;
         int leftHours = 0;
+        Curriculum curriculum = student.getCurriculum();
+        List<Course> courseList = curriculum.getCourseList();
 
-        Program program = student.getProgram();
-
-        if (endTime == null || program.getCurriculum() == null) {
-            program.setStatusCourse(StatusCourse.NO_COURSE);
+        if (curriculum.getCourseList().isEmpty() || courseList == null) {
+            curriculum.setStatus(StatusCurriculum.NO_COURSE);
         } else {
-            long durationOfDays = Math.abs(nowTime.until(endTime, ChronoUnit.DAYS));
-            long durationOfHours = Math.abs(nowTime.until(endTime, ChronoUnit.HOURS));
-
-            leftDurationOfHours = (int) (durationOfHours - durationOfDays * HOURS_OF_DAY);
-            leftDaysFromNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
-            leftDaysToEnd = calculateDurationWithoutWeekend(endTime, durationOfDays, leftDurationOfHours);
-            leftHours = calculateDurationWithWorkHours(leftDurationOfHours);
-        }
-
-        if (program.getCurriculum() == null) {
-            program.setStatusCourse(StatusCourse.NO_COURSE);
-        } else if (endTime.isAfter(nowTime)) {
-            student.getProgram().setStatusCourse(StatusCourse.IN_PROCESS);
-            if (leftDaysFromNow == 0) {
-                program.setLeftTime(leftHours + " h. are left unit the end.");
-            } else if (leftHours == 0 || leftHours == 8) {
-                program.setLeftTime(leftDaysFromNow + " d. are left unit the end.");
+            if (endTimeOfCurriculum == null) {
+                curriculum.setStatus(StatusCurriculum.NO_COURSE);
             } else {
-                program.setLeftTime(leftDaysFromNow + " d. " + leftHours + " h." + " are left unit the end.");
+                long durationOfDays = Math.abs(nowTime.until(endTimeOfCurriculum, ChronoUnit.DAYS));
+                long durationOfHours = Math.abs(nowTime.until(endTimeOfCurriculum, ChronoUnit.HOURS));
+
+                leftDurationOfHours = (int) (durationOfHours - durationOfDays * HOURS_OF_DAY);
+                leftDaysFromNow = calculateDurationWithoutWeekend(nowTime, durationOfDays, leftDurationOfHours);
+                leftDaysToEnd = calculateDurationWithoutWeekend(endTimeOfCurriculum, durationOfDays, leftDurationOfHours);
+                leftHours = calculateDurationWithWorkHours(leftDurationOfHours);
+
+                if (endTimeOfCurriculum.isAfter(nowTime)) {
+                    curriculum.setStatus(StatusCurriculum.IN_PROCESS);
+                    if (leftDaysFromNow == 0) {
+                        curriculum.setLeftTime(leftHours + " h. are left unit the end.");
+                    } else if (leftHours == 0 || leftHours == 8) {
+                        curriculum.setLeftTime(leftDaysFromNow + " d. are left unit the end.");
+                    } else {
+                        curriculum.setLeftTime(leftDaysFromNow + " d. " + leftHours + " h." + " are left unit the end.");
+                    }
+                } else if (endTimeOfCurriculum.isBefore(nowTime)) {
+                    curriculum.setStatus(StatusCurriculum.COMPLETED);
+                    if (leftDaysToEnd == 0) {
+                        curriculum.setLeftTime(leftHours + " h. have passed since the end.");
+                    } else if (leftHours == 0 || leftHours == 8) {
+                        curriculum.setLeftTime(leftDaysToEnd + " d. have passed since the end.");
+                    } else {
+                        curriculum.setLeftTime(leftDaysToEnd + " d. " + leftHours + " h." + " have passed since the end.");
+                    }
+                } else {
+                    curriculum.setStatus(StatusCurriculum.COMPLETED);
+                    curriculum.setLeftTime("You just finished the course.");
+                }
             }
-        } else if (endTime.isBefore(nowTime)) {
-            program.setStatusCourse(StatusCourse.COMPLETED);
-            if (leftDaysToEnd == 0) {
-                program.setLeftTime(leftHours + " h. have passed since the end.");
-            } else if (leftHours == 0 || leftHours == 8) {
-                program.setLeftTime(leftDaysToEnd + " d. have passed since the end.");
-            } else {
-                program.setLeftTime(leftDaysToEnd + " d. " + leftHours + " h." + " have passed since the end.");
-            }
-        } else {
-            program.setStatusCourse(StatusCourse.COMPLETED);
-            program.setLeftTime("You just finished the course.");
         }
         return student;
     }

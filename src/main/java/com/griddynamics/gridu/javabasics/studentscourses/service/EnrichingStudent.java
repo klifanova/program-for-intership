@@ -6,5 +6,5 @@ import java.time.Instant;
 
 public interface EnrichingStudent {
 
-    Student enrichStudent(Instant startTime, Instant endTime, Student student);
+    Student enrichStudent(Instant startTime, Instant endTimeOfCurriculum, Student student);
 }
