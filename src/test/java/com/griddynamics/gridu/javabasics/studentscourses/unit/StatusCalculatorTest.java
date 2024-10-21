@@ -108,12 +108,4 @@ public class StatusCalculatorTest {
 
         return new Student("Ivan", "Ivanov", curriculum);
     }
-//    private List<Instant> getSpecificListEndTimes(int numberOfCourse, Instant endTime) {
-//        List<Instant> endTimesList = new ArrayList<>();
-//
-//        for (int i = 0; i < numberOfCourse; i++) {
-//            endTimesList.add(endTime);
-//        }
-//        return endTimesList;
-//    }
 }
